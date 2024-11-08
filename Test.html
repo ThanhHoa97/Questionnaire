@@ -17,5 +17,23 @@
         Your browser does not support the video tag.
     </video>
 
+
+    <div id="questionnaire" class="hidden">
+        <h2>Questionnaire for this video</h2>
+        <label>1. How engaging was the video? (1-5)</label><br>
+        <input type="number" id="q1" min="1" max="5"><br><br>
+        
+        <label>2. How well did the video explain the feature? (1-5)</label><br>
+        <input type="number" id="q2" min="1" max="5"><br><br>
+        
+        <label>3. Would you like more information on this feature?</label><br>
+        <input type="radio" id="q3_yes" name="q3" value="Yes"> Yes<br>
+        <input type="radio" id="q3_no" name="q3" value="No"> No<br><br>
+        
+        <button id="submitButton">Submit and Next Video</button>
+    </div>
+
+    
+
 </body>
 </html>
