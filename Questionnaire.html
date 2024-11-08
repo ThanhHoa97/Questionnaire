@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Questionnaire</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #questionnaire { margin-top: 20px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Video Questionnaire</h1>
+
+    <!-- Video player section -->
+    <iframe id="videoPlayer" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+
+    <!-- Questionnaire section -->
+    <div id="questionnaire" class="hidden">
+        <h2>Questionnaire for this video</h2>
+        <label>1. How engaging was the video? (1-5)</label><br>
+        <input type="number" id="q1" min="1" max="5"><br><br>
+        
+        <label>2. How well did the video explain the feature? (1-5)</label><br>
+        <input type="number" id="q2" min="1" max="5"><br><br>
+        
+        <label>3. Would you like more information on this feature?</label><br>
+        <input type="radio" id="q3_yes" name="q3" value="Yes"> Yes<br>
+        <input type="radio" id="q3_no" name="q3" value="No"> No<br><br>
+        
+        <button id="submitButton">Submit and Next Video</button>
+    </div>
+
+    <p id="completionMessage" class="hidden">Thank you for completing the questionnaire!</p>
+
+    <script>
+        //Define video information and Latin Square randomization order
+        const videos = [
+            { id: 'A', url: 'https://www.youtube.com/watch?v=NYsExKipxc8' },
+            { id: 'B', url: 'https://www.youtube.com/watch?v=NYsExKipxc8' },
+            { id: 'C', url: 'https://www.youtube.com/watch?v=NYsExKipxc8' }
+        ];
+
+        const latinSquareOrders = [
+            [videos[0], videos[1], videos[2]],
+            [videos[1], videos[2], videos[0]],
+            [videos[2], videos[0], videos[1]]
+        ];
+
+        // Randomize Latin Square order
+        const participantOrder = latinSquareOrders[Math.floor(Math.random() * latinSquareOrders.length)];
+        let currentVideoIndex = 0;
+
+        // Function to load the next video
+        function loadNextVideo() {
+            if (currentVideoIndex < participantOrder.length) {
+                const video = participantOrder[currentVideoIndex];
+                document.getElementById('videoPlayer').src = video.url;
+                document.getElementById('questionnaire').classList.remove('hidden');
+            } else {
+                document.getElementById('videoPlayer').classList.add('hidden');
+                document.getElementById('questionnaire').classList.add('hidden');
+                document.getElementById('completionMessage').classList.remove('hidden');
+            }
+        }
+
+        // Function to handle form submission
+        document.getElementById('submitButton').addEventListener('click', function() {
+            // Gather responses
+            const response1 = document.getElementById('q1').value;
+            const response2 = document.getElementById('q2').value;
+            const response3 = document.querySelector('input[name="q3"]:checked') ? document.querySelector('input[name="q3"]:checked').value : null;
+
+            if (!response1 || !response2 || !response3) {
+                alert("Please complete all questions before proceeding.");
+                return;
+            }
+
+            // Store the responses (can send to server or log for testing)
+            console.log(`Responses for Video ${participantOrder[currentVideoIndex].id}:`, { response1, response2, response3 });
+
+            // Reset form and load next video
+            document.getElementById('q1').value = '';
+            document.getElementById('q2').value = '';
+            document.getElementById('q3_yes').checked = false;
+            document.getElementById('q3_no').checked = false;
+
+            currentVideoIndex++;
+            loadNextVideo();
+        });
+
+        // Load the first video on page load
+        loadNextVideo();
+    </script>
+</body>
+</html>
