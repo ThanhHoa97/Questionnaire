@@ -6,8 +6,8 @@
     <title>Video Example</title>
 </head>
 
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
 <script>
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
@@ -27,22 +27,33 @@
     </video>
 
 
-    <div id="questionnaire" class="hidden">
-        <h2>Questionnaire for this video</h2>
-        <label>1. How engaging was the video? (1-5)</label><br>
-        <input type="number" id="q1" min="1" max="5"><br><br>
-        
-        <label>2. How well did the video explain the feature? (1-5)</label><br>
-        <input type="number" id="q2" min="1" max="5"><br><br>
-        
-        <label>3. Would you like more information on this feature?</label><br>
-        <input type="radio" id="q3_yes" name="q3" value="Yes"> Yes<br>
-        <input type="radio" id="q3_no" name="q3" value="No"> No<br><br>
-        
-        <button id="submitResponse">Submit and Next Video</button>
-    </div>
+    <form id="questionnaire">
+        <label for="q1">How would you rate the video?</label>
+        <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
+        <label for="q2">Comments:</label>
+        <textarea id="q2" name="q2" rows="4" cols="50"></textarea><br><br>
+        <button type="button" onclick="submitData()">Submit</button>
+    </form>
 
-    <button onclick="submitResponse(currentVideoId, document.getElementById('responseField').value)">Submit Response</button>
+    <script>
+         function submitData() {
+            const q1 = document.getElementById('q1').value;
+            const q2 = document.getElementById('q2').value;
+
+            db.collection("questionnaireResponses").add({
+                rating: q1,
+                comments: q2,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert("Response submitted successfully!");
+                document.getElementById("questionnaire").reset();
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        }
+    </script>
 
 </body>
 </html>
