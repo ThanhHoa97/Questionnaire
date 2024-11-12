@@ -19,11 +19,14 @@ document.getElementById("Questionnnaire").addEventListener("submit", submitForm)
 
 function submitForm(e){
     e.preventDefault();
+    var q1 = getElementVal("q1");
+    var q2 = getElementVal("q2");
 
+    console.log(q1, q2);
      
 }
 
 const getElementVal = (id) => {
-    return document.getElementById(id).ariaValueMax;
+    return document.getElementById(id).value;
 }
 

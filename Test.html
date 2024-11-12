@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Example</title>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
 </head>
 
-<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+
 
 <body>
 
@@ -27,32 +30,8 @@
         <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
         <label for="q2">Comments:</label>
         <textarea id="q2" name="q2" rows="4" cols="50"></textarea><br><br>
-        <button type="button" onclick="submitData()">Submit</button>
+        <button type="button" onclick="submit()">Submit</button>
     </form>
-
-    <script>
-         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        function submitData() {
-            const q1 = document.getElementById('q1').value;
-            const q2 = document.getElementById('q2').value;
-
-            db.collection("questionnaireResponses").add({
-                rating: q1,
-                comments: q2,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert("Response submitted successfully!");
-                document.getElementById("questionnaire").reset();
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-        }
-    </script>
 
 </body>
 </html>
