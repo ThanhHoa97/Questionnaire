@@ -23,7 +23,18 @@ function submitForm(e){
     var q2 = getElementVal("q2");
 
     console.log(q1, q2);
+
+    saveMessages(q1, q2);
      
+}
+
+const saveMessages = (q1, q2) => {
+    var newQuestionnaire = Questionnaire.push();
+
+    newQuestionnaire.set({
+        q1 : q1,
+        q2 : q2,
+    })
 }
 
 const getElementVal = (id) => {
