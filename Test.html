@@ -8,6 +8,17 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1500px; margin: 20px auto; }
+        .question { margin-top: 20px; }
+        label { font-weight: bold; }
+        .likert-options { display: flex; justify-content: space-between; }
+        .option { display: inline-flex; align-items: center; }
+        .submit { margin-top: 20px; padding: 10px 20px; }
+        #responseMessage { margin-top: 20px; font-weight: bold; color: green; }
+    </style>
+
 </head>
 
 
@@ -16,22 +27,77 @@
 
     <h2>Sample Video</h2>
     
-    <!-- Video element -->
-    <video width="640" height="360" controls>
-        <!-- MP4 is commonly supported -->
-        <source src="pedestriansTrim.mp4" type="video/mp4">
-        <!-- Fallback text if video is not supported -->
+    <video id="videoPlayer" controls width="1500">
+        <source id="videoSource" src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-
+     
+    
 
     <form id="questionnaire">
-        <label for="q1">How would you rate the video?</label>
+        <!-- Trust -->
+        <p>Please rate the following statements on a scale from 1 to 5 (strongly disagree to strongly agree )</p>
+        <label for="q1">1. I trust the system</label>
         <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
-        <label for="q2">Comments:</label>
-        <textarea id="q2" name="q2" rows="4" cols="50"></textarea><br><br>
-        <button type="button" onclick="submit()">Submit</button>
+        <label for="q2">2. I can rely on the system</label>
+        <input type="number" id="q2" name="q2" min="1" max="5" required><br><br>
+
+        <!-- Understanding -->
+        <label for="q3">3. The system state was always clear to me</label>
+        <input type="number" id="q3" name="q3" min="1" max="5" required><br><br>    
+        <label for="q4">4. I was able to understand why things happened</label>
+        <input type="number" id="q4" name="q4" min="1" max="5" required><br><br>
+        <label for="q5">5. It’s difficult to identify what the system will do next</label>
+        <input type="number" id="q5" name="q5" min="1" max="5" required><br><br> 
+
+        <!-- visibility of the visualization -->
+        <label for="q6">6. The visualization was clearly visible</label>
+        <input type="number" id="q6" name="q6" min="1" max="5" required><br><br> 
+        <label for="q7">7. The visualization distracted me</label>
+        <input type="number" id="q7" name="q7" min="1" max="5" required><br><br>
+
+        <!-- Cognitive load -->
+        <p>Please rate the following statements on a scale from 1 to 9 </p>
+        <div class="question">
+            <label for="q8">8. Please rate your mental effort to completed this task.</label>
+            <div class="likert-options">
+                <label class="option">
+                    <input type="radio" name="q8" value="1" required> 1 - very, very low
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="2"> 2 - very low
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="3"> 3 - low
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="4"> 4 - rather low
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="5"> 5 - neither low nor high
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="6"> 6 - rather high
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="7"> 7 - high
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="8"> 8 - very high
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="9"> 9 - very, very high
+                </label>
+            </div>
+        </div>
+    
+
+        <div class="inputBox">
+            <button type="submit">Submit</button>
+        </div>
     </form>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="./fireBaseConfig.js"></script>
 </body>
 </html>
