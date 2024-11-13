@@ -68,13 +68,21 @@ function submitForm(e){
     e.preventDefault();
     var q1 = getElementVal("q1");
     var q2 = getElementVal("q2");
+    var q3 = getElementVal("q3");
+    var q4 = getElementVal("q4");
+    var q5 = getElementVal("q5");
+    var q6 = getElementVal("q6");
+    var q7 = getElementVal("q7");
+    var q8 = getElementVal("q8");
+    var q9 = getElementVal("q9");
+
     const currentScenario = randomScenarioOrder[scenarioIndex];
     const currentVideoOrder = randomVideoOrders[scenarioIndex]; 
     
 
-    console.log(q1, q2, currentScenario, currentVideoOrder);
+    console.log(q1, q2, q3, q4, q5, q6, q7, q8, q9, currentScenario, currentVideoOrder);
 
-    saveMessages(q1, q2, currentScenario, currentVideoOrder);
+    saveMessages(q1, q2, q3, q4, q5, q6, q7, q8, q9, currentScenario, currentVideoOrder);
      
     videoIndex++;
     if (videoIndex >= videos[0].length) {
@@ -85,12 +93,19 @@ function submitForm(e){
     loadVideo();
 }
 
-const saveMessages = (q1, q2, currentScenario, currentVideoOrder) => {
+const saveMessages = (q1, q2, q3, q4, q5, q6, q7, q8, q9, currentScenario, currentVideoOrder) => {
     var newQuestionnaire = questionnaireDB.push();
 
     newQuestionnaire.set({
         q1 : q1,
         q2 : q2,
+        q3 : q3,
+        q4 : q4,
+        q5 : q5,
+        q6 : q6,
+        q7 : q7,
+        q8 : q8,
+        q9 : q9,
         scenario: currentScenario + 1,
         video: currentVideoOrder[videoIndex] + 1
     })
