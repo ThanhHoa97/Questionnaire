@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video Scenarios - Latin Square</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+          }
+          .video-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          video {
+            width: 1000px;
+            margin-bottom: 30px;
+          }
+          .button {
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+<body>
+    <h1>Watch 5 Videos in Random Order (Latin Square)</h1>
+
+    <!-- Button to trigger video display -->
+    <button class="button" onclick="showVideos()">Show Videos</button>
+
+    <!-- Container to display the videos -->
+    <div id="videoContainer" class="video-container"></div>
+
+    <script>
+
+        // Array of 5 video sources for each of the 4 scenarios
+        const scenarioVideos = {
+            scenario1: [
+                { src: "videos/scenario1/Baseline.mp4", id: "video1_1" },
+                { src: "videos/scenario1/BoundingBox.mp4", id: "video1_2" },
+                { src: "videos/scenario1/Light.mp4", id: "video1_3" }
+            ],
+            scenario2: [
+                { src: "videos/scenario2/Baseline.mp4", id: "video2_1" },
+                { src: "videos/scenario2/Point.mp4", id: "video2_2" },
+                { src: "videos/scenario2/Point.mp4", id: "video2_3" }
+            ],
+            scenario3: [
+                { src: "videos/scenario3/Baseline.mp4", id: "video3_1" },
+                { src: "videos/scenario3/Baseline.mp4", id: "video3_2" },
+                { src: "videos/scenario3/BoundingBox.mp4", id: "video3_3" }
+            ],
+            scenario4: [
+                { src: "videos/scenario4/Baseline.mp4", id: "video4_1" },
+                { src: "videos/scenario4/BaseLine.mp4", id: "video4_2" },
+                { src: "videos/scenario4/Baseline.mp4", id: "video4_3" }
+            ],
+            scenario5: [
+                { src: "videos/scenario5/Baseline.mp4", id: "video5_1" },
+                { src: "videos/scenario5/Baseline.mp4", id: "video5_2" },
+                { src: "videos/scenario5/Baseline.mp4", id: "video5_3" }
+            ]
+        };
+
+        const questions = [
+            "How engaging was the video?",
+            "How clear was the content?",
+            "How likely are you to recommend this video?"
+        ];
+
+        // Latin Square for 5 videos (5x5 grid)
+        function generateLatinSquare() {
+            return [
+                [0, 1, 2],  // scenario 1
+                [1, 2, 0],  // scenario 2
+                [2, 0, 1],  // scenario 3
+            ];
+        }
+
+        // Function to display videos in random order based on the Latin Square
+        function showVideos() {
+            const latinSquare = generateLatinSquare();
+            const scenarioIndex = Math.floor(Math.random() * latinSquare.length); // Randomly select a scenario
+            const videoOrder = latinSquare[scenarioIndex];
+
+            const scenarioNames = ['scenario1', 'scenario2', 'scenario3', 'scenario4'];
+            const selectedscenario = scenarioNames[scenarioIndex];
+
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = '';  // Clear the container before adding new videos
+
+            // Start the video sequence by playing the first video
+            playNextVideo(selectedscenario, videoOrder, 0);
+        }
+
+        // Function to play a video and load the next one when finished
+        function playNextVideo(scenario, videoOrder, index) {
+            const container = document.getElementById('videoContainer');
+
+            // Create the video element
+            let videoElement = document.createElement("video");
+            videoElement.src = scenarioVideos[scenario][videoOrder[index]].src;
+            videoElement.controls = true;
+            videoElement.id = scenarioVideos[scenario][videoOrder[index]].id;
+
+            // When the video ends, load the next one in the sequence
+            videoElement.onended = function () {
+                if (index < videoOrder.length - 1) {
+                    // Play the next video
+                    playNextVideo(scenario, videoOrder, index + 1);
+                } else {
+                    // All videos have been played, show a completion message
+                    container.innerHTML += "<h2>Thank you for watching!</h2>";
+                }
+            };
+
+            // Append the video element to the container
+            container.appendChild(videoElement);
+
+            // Play the current video
+            //videoElement.play();
+        }
+        
+    </script>
+</body>
+</html>
