@@ -16,6 +16,9 @@
             align-items: center;
             margin-bottom: 20px;
           }
+          .questionnaire {
+            display: flex;
+          }
           video {
             width: 1000px;
             margin-bottom: 30px;
@@ -113,6 +116,46 @@
                     playNextVideo(scenario, videoOrder, index + 1);
                 } else {
                     // All videos have been played, show a completion message
+
+                    //Create questionnaire
+                    const form = document.createElement('form');
+                    form.classList.add('questionnaire');
+                    form.innerHTML = `
+                        <h3>Questionnaire for Video </h3>
+                        ${questions.map((q, i) => `
+                            <p>${q}</p>
+                            <label>
+                                <input type="radio" name="q3" value="1" required> 1
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="2"> 2
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="3"> 3
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="4"> 4
+                            </label>
+                            <label>
+                                <input type="radio" name="q3" value="5"> 5
+                            </label>
+                        `).join('')}
+                        <button type="submit">Submit</button>
+                    `;
+
+
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const nextVideo = videoContainer.nextElementSibling;
+                        videoContainer.classList.remove('active');
+                        if (nextVideo) {
+                            nextVideo.classList.add('active');
+                        } else {
+                            document.getElementById('next-button').style.display = 'block';
+                        }
+                    });
+
+                    videoElement.appendChild(form);
                     container.innerHTML += "<h2>Thank you for watching!</h2>";
                 }
             };
