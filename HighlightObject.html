@@ -5,43 +5,57 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Video Scenarios - Latin Square</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-          }
-          .video-container {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-          }
-          .questionnaire {
-            display: flex;
-          }
-          video {
-            width: 1000px;
-            margin-bottom: 30px;
-          }
-          .button {
-            margin-top: 20px;
-          }
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            .video-container {
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+              margin-bottom: 20px;
+            }
+            .questionnaire-container {
+              display: none;
+            }
+            .active {
+              display: block;
+            }
+            video {
+              width: 1000px;
+              margin-bottom: 30px;
+            }
+            .button {
+              margin-top: 20px;
+            }
         </style>
-      </head>
+    </head>
 <body>
+
     <h1>Watch 5 Videos in Random Order (Latin Square)</h1>
 
     <!-- Button to trigger video display -->
-    <button class="button" onclick="showVideos()">Show Videos</button>
+    <!-- <button class="button" onclick="showVideos()">Show Videos</button>-->
+    <button class="button" onclick="initialScenarioOrder()">Begin</button>
+    
+    <div id="scenario-container"></div>
+    <button id="next-scenario-button" style="display:none;">Next Scenario</button>
+    <div id="completion-message" style="display:none;">
+        <h2>Thank you for completing the questionnaire!</h2>
+        <button id="download-data-button">Submit Results</button>
+    </div>
+
 
     <!-- Container to display the videos -->
     <div id="videoContainer" class="video-container"></div>
+
 
     <script>
 
         // Array of 5 video sources for each of the 4 scenarios
         const scenarioVideos = {
-            scenario1: [
+            scenarrio1: [
                 { src: "videos/scenario1/Baseline.mp4", id: "video1_1" },
                 { src: "videos/scenario1/BoundingBox.mp4", id: "video1_2" },
                 { src: "videos/scenario1/Light.mp4", id: "video1_3" }
@@ -75,27 +89,38 @@
         ];
 
         // Latin Square for 5 videos (5x5 grid)
-        function generateLatinSquare() {
+        function generateVideoLatinSquare() {
             return [
-                [0, 1, 2],  // scenario 1
-                [1, 2, 0],  // scenario 2
-                [2, 0, 1],  // scenario 3
+                [0, 1, 2],  // video_order 1
+                [1, 2, 0],  // video_order 2
+                [2, 0, 1],  // video_order 3
             ];
         }
 
+        function generateScenarioLatinSquare() {
+            return [
+                [0, 1, 2, 3, 4], //scenario_order 1
+                [1, 2, 3, 4, 0], //scenario_order 2
+                [2, 3, 4, 0, 1], //scenario_order 3
+                [3, 4, 0, 1, 2], //scenario_order 4
+                [4, 0, 1, 2, 3], //scenario_order 5 
+            ]
+        }
+
         // Function to display videos in random order based on the Latin Square
-        function showVideos() {
-            const latinSquare = generateLatinSquare();
+        function showVideos(selectedscenario) {
+            const latinSquare = generateVideoLatinSquare();
             const scenarioIndex = Math.floor(Math.random() * latinSquare.length); // Randomly select a scenario
             const videoOrder = latinSquare[scenarioIndex];
 
-            const scenarioNames = ['scenario1', 'scenario2', 'scenario3', 'scenario4'];
-            const selectedscenario = scenarioNames[scenarioIndex];
+            //const scenarioNames = ['scenario1', 'scenario2', 'scenario3', 'scenario4', 'scenario5'];
+            //const selectedscenario = scenarioNames[scenarioIndex];
 
             const container = document.getElementById('videoContainer');
             container.innerHTML = '';  // Clear the container before adding new videos
 
             // Start the video sequence by playing the first video
+            console.log("selectedscenario: ", selectedscenario);
             playNextVideo(selectedscenario, videoOrder, 0);
         }
 
@@ -118,8 +143,12 @@
                     // All videos have been played, show a completion message
 
                     //Create questionnaire
+                    const questionnaire = document.createElement('div');
+                    questionnaire.classList.add('questionnaire-container');
+
                     const form = document.createElement('form');
-                    form.classList.add('questionnaire');
+                    //form.classList.add('questionnaire');
+                    
                     form.innerHTML = `
                         <h3>Questionnaire for Video </h3>
                         ${questions.map((q, i) => `
@@ -155,7 +184,7 @@
                         }
                     });
 
-                    videoElement.appendChild(form);
+                    container.appendChild(form);
                     container.innerHTML += "<h2>Thank you for watching!</h2>";
                 }
             };
@@ -167,6 +196,67 @@
             //videoElement.play();
         }
         
+
+        // Function show the next scenario
+        function renderScenario(index){
+            const scenarioVideoLatinSquare = generateScenarioLatinSquare();
+            const scenarioVideoIndex = Math.floor(Math.random() * scenarioVideoLatinSquare.length); // Randomly select a scenario_video order
+            const scenarioVideoOrder = scenarioVideoLatinSquare[scenarioVideoIndex];
+            
+
+
+            ///
+            const latinSquare = generateVideoLatinSquare();
+            const scenarioIndex = Math.floor(Math.random() * latinSquare.length); // Randomly select a scenario
+            const videoOrder = latinSquare[scenarioIndex];
+
+            const scenarioNames = ['scenario1', 'scenario2', 'scenario3', 'scenario4', 'scenario5'];
+            const selectedscenario = scenarioNames[scenarioIndex];
+
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = '';  // Clear the container before adding new videos
+
+            // Start the video sequence by playing the first video
+            playNextVideo(selectedscenario, videoOrder, 0);
+
+        }
+
+        //initial scenario video order
+        function initialScenarioOrder() {
+            const scenarioVideoLatinSquare = generateScenarioLatinSquare();
+            const scenarioVideoIndex = Math.floor(Math.random() * scenarioVideoLatinSquare.length); // Randomly select a scenario_video order
+            const scenarioVideoOrder = scenarioVideoLatinSquare[scenarioVideoIndex];
+            const scenarioNames = ['', '', '', '', ''];
+
+            for (let i = 0; i < scenarioVideoOrder.length; i++) {
+                if (scenarioVideoOrder[i] == 0) {scenarioNames[i] = 'scenario1';}
+                else if (scenarioVideoOrder[i] == 1) {scenarioNames[i] = 'scenario2';}
+                else if (scenarioVideoOrder[i] == 2) {scenarioNames[i] = 'scenario3';}
+                else if (scenarioVideoOrder[i] == 3) {scenarioNames[i] = 'scenario4';}
+                else if (scenarioVideoOrder[i] == 4) {scenarioNames[i] = 'scenario5';} 
+            }
+
+            console.log(scenarioNames);
+
+            console.log(scenarioVideoOrder);
+            showVideos(scenarioNames[0]);
+        }
+
+        let currentScenarioIndex = 0; 
+        // Handle Next Scenario button
+        document.getElementById('next-scenario-button').addEventListener('click', () => {
+            currentScenarioIndex++;
+            if (currentScenarioIndex < scenarioNames.length) {
+                renderScenario(currentScenarioIndex);
+                document.getElementById('next-scenario-button').style.display = 'none';
+            } else {
+                document.getElementById('scenario-container').style.display = 'none';
+                document.getElementById('next-scenario-button').style.display = 'none';
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        });
+
+
     </script>
 </body>
 </html>
