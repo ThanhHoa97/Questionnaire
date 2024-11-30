@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Presentation</title>
+  <style>
+	
+	 /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f8f9fa;
+      color: #333;
+      padding: 20px;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 500;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Buttons */
+    button {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background-color: #adb5bd;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 20px;
+    }
+
+    h2, h3 {
+      color: #343a40;
+      margin-bottom: 15px;
+    }
+
+    /* Video Section */
+    .video {
+      margin: 15px 0;
+      padding: 15px;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      background-color: #f1f3f5;
+    }
+
+    video {
+      display: block;
+      margin: 0 auto 15px;
+    }
+
+    /* Questionnaire Section */
+    .questionnaire {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+    }
+
+    .questionnaire h4 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #495057;
+    }
+
+    .questionnaire label {
+      display: block;
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #495057;
+    }
+
+    .questionnaire input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    /* Footer Navigation */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+	
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Welcome to the Project</h1>
+    <p><strong>Participant ID:</strong> <span id="participant-id">12345</span></p>
+    <p>This project involves watching videos and answering questionnaires across different scenarios. Click the "Begin" button to start.</p>
+    <button id="begin-button">Begin</button>
+  </div>
+
+  <div class="scenario-buttons hidden" id="scenario-buttons">
+    <h2>Select a Scenario</h2>
+    <button class="scenario-btn" data-scenario="1">Scenario 1</button>
+    <button class="scenario-btn" data-scenario="2">Scenario 2</button>
+    <button class="scenario-btn" data-scenario="3">Scenario 3</button>
+    <button class="scenario-btn" data-scenario="4">Scenario 4</button>
+    <button class="scenario-btn" data-scenario="5">Scenario 5</button>
+  </div>
+
+  <div class="content-area hidden" id="content-area">
+    <h3 id="scenario-title">Scenario Content</h3>
+  </div>
+
+  <script>
+    const videosPerScenario = 6;
+    const questionsPerQuestionnaire = 3;
+    const totalQuestionnaires = 6;
+    const participants = 10; // Number of participants for Latin square
+
+    let currentScenario = null;
+    let currentVideoIndex = 0;
+    let currentQuestionnaireIndex = 0;
+    let collectedData = []; // To collect responses for saving
+
+    const beginButton = document.getElementById('begin-button');
+    const scenarioButtonsDiv = document.getElementById('scenario-buttons');
+    const contentArea = document.getElementById('content-area');
+
+    // Generate Latin square
+    function generateLatinSquare(size) {
+      const square = [];
+      for (let i = 0; i < size; i++) {
+        square.push([...Array(size).keys()].map(k => (k + i) % size));
+      }
+      return square;
+    }
+
+    const latinSquare = generateLatinSquare(videosPerScenario);
+
+    // Get randomized video order for the current scenario
+    function getRandomizedVideos(scenario) {
+      const participantId = parseInt(document.getElementById("participant-id").textContent, 10);
+      const orderIndex = participantId % latinSquare.length;
+      return latinSquare[orderIndex].map(videoIndex => `video${scenario}-${videoIndex + 1}.mp4`);
+    }
+
+    let videoOrder = [];
+
+    // Handle Begin Button Click
+    beginButton.addEventListener('click', () => {
+      scenarioButtonsDiv.classList.remove('hidden');
+      beginButton.classList.add('hidden');
+      loadProgress();
+    });
+
+    // Handle Scenario Button Click
+    document.querySelectorAll('.scenario-btn').forEach(button => {
+      button.addEventListener('click', () => {
+
+        //save data
+        
+
+        currentScenario = button.getAttribute('data-scenario');
+        currentVideoIndex = 0;
+        currentQuestionnaireIndex = 0;
+        videoOrder = getRandomizedVideos(currentScenario);
+        collectedData = []; // Reset collected data
+        loadScenario();
+      });
+    });
+
+    // Load Scenario
+    function loadScenario() {
+      scenarioButtonsDiv.classList.add('hidden');
+      contentArea.classList.remove('hidden');
+      contentArea.innerHTML = `<h3>Scenario ${currentScenario}</h3>`;
+      loadNextVideo();
+    }
+
+    // Load Next Video
+    function loadNextVideo() {
+      if (currentVideoIndex < videoOrder.length) {
+        const videoSrc = videoOrder[currentVideoIndex];
+        const videoElement = document.createElement('div');
+        videoElement.classList.add('video');
+        videoElement.innerHTML = `
+          <p>Video ${currentVideoIndex + 1} for Scenario ${currentScenario}</p>
+          <video controls width="800">
+            <source src="${videoSrc}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <button onclick="videoWatched()">Next Video</button>
+        `;
+        contentArea.appendChild(videoElement);
+      } else {
+        alert('You have completed all videos for this scenario!');
+        loadNextQuestionnaire();
+      }
+    }
+
+    // Mark Video as Watched and Load the Next Video
+    function videoWatched() {
+      currentVideoIndex++;
+      saveProgress();
+      loadNextVideo();
+    }
+
+    // Load Questionnaires One by One Below Previous Content
+    function loadNextQuestionnaire() {
+      if (currentQuestionnaireIndex < totalQuestionnaires) {
+        const questionnaireDiv = document.createElement('div');
+        questionnaireDiv.classList.add('questionnaire');
+        questionnaireDiv.innerHTML = `
+          <form id="questionnaire-form-${currentQuestionnaireIndex}">
+            <h4>Questionnaire ${currentQuestionnaireIndex + 1}</h4>
+            ${generateQuestionnaire(currentQuestionnaireIndex)}
+            <button type="submit">Submit Questionnaire ${currentQuestionnaireIndex + 1}</button>
+          </form>
+        `;
+        contentArea.appendChild(questionnaireDiv);
+
+        const form = document.getElementById(`questionnaire-form-${currentQuestionnaireIndex}`);
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          //collectQuestionnaireData(currentQuestionnaireIndex);
+          currentQuestionnaireIndex++;
+          saveProgress();
+          loadNextQuestionnaire();
+        });
+      } else {
+        alert('You have completed all questionnaires for this scenario!');
+        showSubmitButton();
+      }
+    }
+
+    // Collect Questionnaire Data
+    function collectQuestionnaireData(index) {
+      const form = document.getElementById(`questionnaire-form-${index}`);
+      const responses = [];
+      for (let i = 1; i <= questionsPerQuestionnaire; i++) {
+        const selected = form.querySelector(`input[name="q${index}-${i}"]:checked`);
+        if (selected) {
+          responses.push({ question: i, response: selected.value });
+        }
+      }
+      collectedData[index] = { questionnaire: index + 1, responses };  // Update the data
+    }
+
+    // Generate Questionnaire HTML
+    function generateQuestionnaire(index) {
+      let questionnaireHtml = '';
+      for (let i = 1; i <= questionsPerQuestionnaire; i++) {
+        questionnaireHtml += `
+          <p>Question ${i} for Questionnaire ${index + 1}</p>
+          <label>
+            <input type="radio" name="q${index}-${i}" value="1" required> 1
+          </label>
+          <label>
+            <input type="radio" name="q${index}-${i}" value="2"> 2
+          </label>
+          <label>
+            <input type="radio" name="q${index}-${i}" value="3"> 3
+          </label>
+          <label>
+            <input type="radio" name="q${index}-${i}" value="4"> 4
+          </label>
+          <label>
+            <input type="radio" name="q${index}-${i}" value="5"> 5
+          </label>
+        `;
+      }
+      return questionnaireHtml;
+    }
+
+    // Show Submit Data Button after completing all questionnaires
+    function showSubmitButton() {
+      const submitButton = document.createElement('button');
+      submitButton.classList.add('submit-button');
+      submitButton.textContent = 'Submit Data';
+      submitButton.onclick = submitData;
+      contentArea.appendChild(submitButton);
+    }
+
+    // Submit Data
+    function submitData() {
+      alert('Data Submitted!');
+      console.log('Collected Data:', JSON.stringify(collectedData, null, 2));
+      resetToScenarioMenu();
+    }
+
+    // Reset to Scenario Menu
+    function resetToScenarioMenu() {
+      contentArea.classList.add('hidden');
+      scenarioButtonsDiv.classList.remove('hidden');
+      contentArea.innerHTML = '';
+    }
+
+    // Save progress to localStorage
+    function saveProgress() {
+      const progress = {
+        currentScenario,
+        currentVideoIndex,
+        currentQuestionnaireIndex,
+        collectedData,
+      };
+      localStorage.setItem('progress', JSON.stringify(progress));
+    }
+
+    // Load progress from localStorage
+    function loadProgress() {
+      const progress = JSON.parse(localStorage.getItem('progress'));
+      if (progress) {
+        currentScenario = progress.currentScenario;
+        currentVideoIndex = progress.currentVideoIndex;
+        currentQuestionnaireIndex = progress.currentQuestionnaireIndex;
+        collectedData = progress.collectedData;
+        if (currentScenario) {
+          videoOrder = getRandomizedVideos(currentScenario);
+          loadScenario();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

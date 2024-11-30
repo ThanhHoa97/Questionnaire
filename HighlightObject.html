@@ -6,28 +6,31 @@
         <title>Video Scenarios - Latin Square</title>
         <style>
             body {
-              font-family: Arial, sans-serif;
-              margin: 20px;
+                font-family: Arial, sans-serif;
+                margin: 20px;
             }
             .video-container {
-              display: flex;
-              justify-content: center;
-              flex-direction: column;
-              align-items: center;
-              margin-bottom: 20px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 20px;
             }
+
             .questionnaire-container {
-              display: none;
+                display: none;
             }
             .active {
-              display: block;
+                display: block;
             }
             video {
-              width: 1000px;
-              margin-bottom: 30px;
+                width: 1000px;
+                margin-bottom: 30px;
             }
             .button {
-              margin-top: 20px;
+                margin-top: 20px;
+                padding: 10px 20px;
+                font-size: 16px;
             }
         </style>
     </head>
@@ -47,8 +50,8 @@
     </div>
 
 
-    <!-- Container to display the videos -->
-    <div id="videoContainer" class="video-container"></div>
+    <!-- Container to display the videos 
+    <div id="videoContainer" class="video-container"></div>-->
 
 
     <script>
@@ -116,8 +119,12 @@
             //const scenarioNames = ['scenario1', 'scenario2', 'scenario3', 'scenario4', 'scenario5'];
             //const selectedscenario = scenarioNames[scenarioIndex];
 
-            const container = document.getElementById('videoContainer');
-            container.innerHTML = '';  // Clear the container before adding new videos
+            //create container for scenario
+            const container = document.getElementById('scenario-container');
+            container.innerHTML = '';
+
+            //const container = document.getElementById('videoContainer');
+            //container.innerHTML = '';  // Clear the container before adding new videos
 
             // Start the video sequence by playing the first video
             console.log("selectedscenario: ", selectedscenario);
@@ -126,7 +133,11 @@
 
         // Function to play a video and load the next one when finished
         function playNextVideo(scenario, videoOrder, index) {
-            const container = document.getElementById('videoContainer');
+            //const container = document.getElementById('videoContainer');
+
+            const videoContainer = document.createElement('div');
+            videoContainer.classList.add('video-container');
+            if (index === 0) videoContainer.classList.add('active');
 
             // Create the video element
             let videoElement = document.createElement("video");
@@ -247,10 +258,12 @@
         document.getElementById('next-scenario-button').addEventListener('click', () => {
             currentScenarioIndex++;
             if (currentScenarioIndex < scenarioNames.length) {
-                renderScenario(currentScenarioIndex);
+                //renderScenario(currentScenarioIndex);
+                showVideos(scenarioNames[currentScenarioIndex]);
                 document.getElementById('next-scenario-button').style.display = 'none';
             } else {
-                document.getElementById('scenario-container').style.display = 'none';
+                //document.getElementById('scenario-container').style.display = 'none';
+                document.getElementById('video-container').style.display = 'none';
                 document.getElementById('next-scenario-button').style.display = 'none';
                 document.getElementById('completion-message').style.display = 'block';
             }

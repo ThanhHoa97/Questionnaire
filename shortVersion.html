@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Questionnaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .video, .questionnaire, .navigation {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        video {
+            width: 1000px;
+            margin-bottom: 30px;
+        }
+    </style>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+</head>
+<body>
+    <h1>Video Questionnaire</h1>
+    <button id="begin-button">Begin</button>
+    <div id="scenario-container" class="hidden"></div>
+
+    <div id="next-scenario-container" class="hidden">
+        <button id="next-scenario-button">Next Scenario</button>
+    </div>
+
+    
+    <div id="completion-message" class="hidden">
+        <h2>Thank you for completing the questionnaire!</h2>
+        <button onclick="sendDataToServer()">Send Data to Server</button>
+        <button id="send-to-firebase-button">Send Data to Firebase</button>
+    </div>
+
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB3YF0LJmMG_xO6JzO4GC8gX3rzLQHeM8M",
+            authDomain: "questionnaire-956d0.firebaseapp.com",
+            databaseURL: "https://questionnaire-956d0-default-rtdb.firebaseio.com",
+            projectId: "questionnaire-956d0",
+            storageBucket: "questionnaire-956d0.firebasestorage.app",
+            messagingSenderId: "984927383017",
+            appId: "1:984927383017:web:64593b1c1f379c6dfc2f78",
+            measurementId: "G-3P3EZQGE89"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Data structure for scenarios and videos
+        const scenarios = [
+            { id: 1, videos: ['videos/scenario1/Baseline.mp4', 'videos/scenario2/Point.mp4', 'videos/scenario1/Light.mp4'] },
+            { id: 2, videos: ['videos/scenario1/Baseline.mp4', 'videos/scenario1/Baseline.mp4', 'videos/scenario1/Baseline.mp4'] }
+        ];
+
+        const questionnaireTemplate = `
+            <!-- Trust -->
+            <p>Please rate the following statements on a scale from 1 to 5 (strongly disagree to strongly agree)</p>
+            <label for="q1">1. I trust the system</label>
+            <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
+            <label for="q2">2. I can rely on the system</label>
+            <input type="number" id="q2" name="q2" min="1" max="5" required><br><br>
+        
+            <!-- Perceived safety -->
+            <div class="question">
+                <label for="q14">14. Please rate your perceived safety:</label>
+                <div class="likert-options">
+                    <label><input type="radio" name="q14" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
+                    <label><input type="radio" name="q14" value="-2"> -2</label>
+                    <label><input type="radio" name="q14" value="-1"> -1</label>
+                    <label><input type="radio" name="q14" value="0"> 0</label>
+                    <label><input type="radio" name="q14" value="1"> 1</label>
+                    <label><input type="radio" name="q14" value="2"> 2</label>
+                    <label><input type="radio" name="q14" value="3"> 3<br>relaxed / calm / safe / confident</label>
+                </div>
+            </div>
+
+            <br><br>
+            <button type="submit">Submit Questionnaire</button>
+        `;
+
+        let currentScenarioIndex = 0;
+        let currentVideoIndex = 0;
+        let currentQuestionnaireIndex = 0;
+
+        const scenarioContainer = document.getElementById('scenario-container');
+        const nextScenarioContainer = document.getElementById('next-scenario-container');
+        const completionMessage = document.getElementById('completion-message');
+        const beginButton = document.getElementById('begin-button');
+        const nextScenarioButton = document.getElementById('next-scenario-button');
+
+        let collectedData = [];
+        let participantData = [];
+         //initial the order of the videos according to the scenario
+        let videos = scenarios[currentScenarioIndex].videos;
+        console.log("current scenario index 1 : ", currentScenarioIndex);
+        let videoOrder = shuffleVideos(videos);
+        console.log("video order 1: ", videoOrder);
+        console.log("video lenght 1: ", videos.length);
+
+
+        // Shuffle videos using Latin square randomization
+        function shuffleVideos(videos) {
+            return videos.sort(() => Math.random() - 0.5);
+        }
+        // Function to show the next video
+        function showNextVideo() {
+            
+            console.log("current video index : ", currentVideoIndex);
+            if (currentVideoIndex < videos.length) {
+                const videoElement = document.createElement('video');
+                //videoElement.src = videos[currentVideoIndex];
+                videoElement.src = videoOrder[currentVideoIndex];
+                videoElement.controls = true;
+                videoElement.classList.add('video');
+
+                videoElement.addEventListener('ended', () => {
+                    //currentVideoIndex++;
+                    console.log("current video index 2: ", currentVideoIndex);
+                    showNextVideo();
+                });
+
+                scenarioContainer.appendChild(videoElement);
+                currentVideoIndex++;
+                console.log("current video index 3: ", currentVideoIndex);
+            } else {
+                // Show first questionnaire after videos are watched
+                showQuestionnaire();
+            }
+        }
+
+        // Function to show the next questionnaire
+        function showQuestionnaire() {
+            if (currentQuestionnaireIndex < 3) {
+                const questionnaire = document.createElement('div');
+                questionnaire.classList.add('questionnaire');
+
+                const form = document.createElement('form');
+                form.innerHTML = `
+                    <h3>Questionnaire ${currentQuestionnaireIndex + 1}</h3>
+                    <form id="questionnaire-form">
+                        ${questionnaireTemplate}
+                    </form>
+                `;
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+                    const answers = {};
+                    for (let [key, value] of formData.entries()) {
+                        answers[key] = value;
+                    }
+
+                    participantData.push({
+                        scenario: scenarios[currentScenarioIndex].id,
+                        questionnaire: currentQuestionnaireIndex + 1,
+                        responses: answers
+                    });
+                    console.log("participant data : ",participantData);
+                    //currentQuestionnaireIndex++;
+                    showQuestionnaire();
+                });
+
+                questionnaire.appendChild(form);
+                scenarioContainer.appendChild(questionnaire);
+                currentQuestionnaireIndex++;
+            } else {
+                nextScenarioContainer.classList.remove('hidden');
+            }
+        }
+
+        //Function to store the data
+
+        // Function to start the next scenario
+        function startNextScenario() {
+            scenarioContainer.innerHTML = '';
+            nextScenarioContainer.classList.add('hidden');
+            currentVideoIndex = 0;
+            currentQuestionnaireIndex = 0;
+
+            currentScenarioIndex++;
+
+            //initial the order of the videos according to the scenario
+
+
+            if (currentScenarioIndex < scenarios.length) {
+                videos = scenarios[currentScenarioIndex].videos;
+                console.log("current scenario index 1 : ", currentScenarioIndex);
+                videoOrder = shuffleVideos(videos);
+                console.log("video order 1: ", videoOrder);
+                console.log("video lenght 1: ", videos.length);
+
+                console.log("current scenario index 2 : ", currentScenarioIndex);
+                showNextVideo();
+            } else {
+                completionMessage.classList.remove('hidden');
+            }
+        }
+
+        
+        function sendDataToServer() {
+            fetch("https://xp3.pythonanywhere.com/webhook/xp3", {
+                method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                body: JSON.stringify(participantData),
+            })
+            .then((response) => {
+                if (response.ok) {
+                    alert("Data successfully sent to the server!");
+                } else {
+                    alert("Failed to send data to the server.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error sending data to server:", error);
+                alert("An error occurred while sending data to the server.");
+            });
+        }
+
+        // Event listeners
+        beginButton.addEventListener('click', () => {
+            beginButton.classList.add('hidden');
+            scenarioContainer.classList.remove('hidden');
+            showNextVideo();
+        });
+
+        // Function to send data to Firebase
+        function sendDataToFirebase() {
+            const ref = firebase.database().ref('Questionnaire');
+            ref.push(participantData)
+                .then(() => {
+                    alert("Data successfully sent to Firebase!");
+                })
+                .catch((error) => {
+                    console.error("Error sending data to Firebase:", error);
+                    alert("Failed to send data to Firebase.");
+                });
+        }
+
+        // Add a button in your HTML to trigger sending data to Firebase
+        // document.getElementById("send-to-firebase-button").addEventListener("click", sendDataToFirebase);
+
+        nextScenarioButton.addEventListener('click', startNextScenario);
+
+        // send data to firebase for each scenario
+        nextScenarioButton.addEventListener("click", sendDataToFirebase);
+    </script>
+
+
+</body>
+</html>
