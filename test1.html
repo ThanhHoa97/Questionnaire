@@ -164,7 +164,7 @@
     const videosPerScenario = 6;
     const questionsPerQuestionnaire = 3;
     const totalQuestionnaires = 6;
-    const participants = 10; // Number of participants for Latin square
+    const participants = 40; // Number of participants for Latin square
 
     let currentScenario = null;
     let currentVideoIndex = 0;
@@ -185,6 +185,7 @@
     }
 
     const latinSquare = generateLatinSquare(videosPerScenario);
+	console.log("latin square : ", latinSquare[1]);
 
     // Get randomized video order for the current scenario
     function getRandomizedVideos(scenario) {
@@ -213,6 +214,7 @@
         currentVideoIndex = 0;
         currentQuestionnaireIndex = 0;
         videoOrder = getRandomizedVideos(currentScenario);
+		console.log("video order : ", videoOrder);
         collectedData = []; // Reset collected data
         loadScenario();
       });
