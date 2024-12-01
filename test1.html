@@ -27,7 +27,17 @@
         .question {
             margin-bottom: 10px;
         }
+        .hidden {
+            display: none;
+        }
     </style>
+
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
 </head>
 <body>
     <h1>Welcome to the Experiment</h1>
@@ -63,9 +73,15 @@
         <button id="next-scenario-button" style="display: none;">Next Scenario</button>
     </div>
 
+    <div id="completion-message" class="hidden">
+        <button id="send-to-firebase-button">Send Data to Firebase</button>
+    </div>
+
     <script>
         // CSV file URL (replace with your GitHub file URL)
         const csvUrl = "https://raw.githubusercontent.com/ThanhHoa97/Questionnaire/main/latinsquare.csv";
+        const messageContainner = document.getElementById('completion-message');
+        const sendToFirebase = document.getElementById('send-to-firebase-button');
 
         // Videos for each scenario
         const videos = {
@@ -197,6 +213,7 @@
                     videoContainer.style.display = "none";
                     questionnaireContainer.style.display = "none";
                     nextScenarioButton.style.display = "none";
+                    messageContainner.classList.remove('hidden');
                     console.log("Final Answers:", answers);
                 }
             };
@@ -244,6 +261,12 @@
 
             startExperiment(participantID);
         });
+
+        // send data to firebase for each scenario
+        //sendToFirebase.addEventListener("click", sendDataToFirebase);
+
+
     </script>
+    <script src="sendToFireBase.js"></script>
 </body>
 </html>

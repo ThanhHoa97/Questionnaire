@@ -16,7 +16,7 @@ firebase.initializeApp(firebaseConfig);
 // Function to send data to Firebase
 function sendDataToFirebase() {
     const ref = firebase.database().ref('Questionnaire');
-    ref.push(participantData)
+    ref.push(answers)
         .then(() => {
             alert("Data successfully sent to Firebase!");
         })
