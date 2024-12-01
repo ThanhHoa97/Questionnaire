@@ -26,9 +26,22 @@ function sendDataToFirebase() {
         });
 }
 
+function sendDataScenarioToFirebase() {
+    const ref = firebase.database().ref('Questionnaire');
+    ref.push(scenarioData)
+        .then(() => {
+            alert("Data successfully sent to Firebase!");
+        })
+        .catch((error) => {
+            console.error("Error sending data to Firebase:", error);
+            alert("Failed to send data to Firebase.");
+        });
+}
+
 
 //reference your database
 //var questionnaireDB = firebase.database().ref('Questionnaire'); 
 
 // Add a button in your HTML to trigger sending data to Firebase
 document.getElementById("send-to-firebase-button").addEventListener("click", sendDataToFirebase);
+document.getElementById("next-scenario-button").addEventListener("click", sendDataScenarioToFirebase);

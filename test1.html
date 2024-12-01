@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        #video-container, #experiment-section {
+        #video-container, #experiment-section, #questionnaire-container, #scenario-questionnaire-container {
             display: none;
         }
         button {
@@ -55,20 +55,36 @@
             </video>
         </div>
         <div id="questionnaire-container">
-            <h3>Questionnaire</h3>
+            <h3>Video Questionnaire</h3>
             <div class="question">
-                <label for="question1">How engaging was the video? (1-5):</label>
-                <input type="number" id="question1" min="1" max="5" required>
+                <label for="video-question1">How engaging was the video? (1-5):</label>
+                <input type="number" id="video-question1" min="1" max="5" required>
             </div>
             <div class="question">
-                <label for="question2">How clear was the content? (1-5):</label>
-                <input type="number" id="question2" min="1" max="5" required>
+                <label for="video-question2">How clear was the content? (1-5):</label>
+                <input type="number" id="video-question2" min="1" max="5" required>
             </div>
             <div class="question">
-                <label for="question3">Additional comments:</label>
-                <textarea id="question3"></textarea>
+                <label for="video-question3">Additional comments:</label>
+                <textarea id="video-question3"></textarea>
             </div>
-            <button id="submit-questionnaire-button">Submit Questionnaire</button>
+            <button id="submit-video-questionnaire-button">Submit Video Questionnaire</button>
+        </div>
+        <div id="scenario-questionnaire-container">
+            <h3>Scenario Questionnaire</h3>
+            <div class="question">
+                <label for="scenario-question1">How challenging was this scenario? (1-5):</label>
+                <input type="number" id="scenario-question1" min="1" max="5" required>
+            </div>
+            <div class="question">
+                <label for="scenario-question2">What was your overall experience? (1-5):</label>
+                <input type="number" id="scenario-question2" min="1" max="5" required>
+            </div>
+            <div class="question">
+                <label for="scenario-question3">General comments about this scenario:</label>
+                <textarea id="scenario-question3"></textarea>
+            </div>
+            <button id="submit-scenario-questionnaire-button">Submit Scenario Questionnaire</button>
         </div>
         <button id="next-scenario-button" style="display: none;">Next Scenario</button>
     </div>
@@ -126,7 +142,7 @@
 
         // Store answers
         const answers = [];
-
+        let scenarioData = [];
 
         // Start the experiment for a given participant ID
         async function startExperiment(participantID) {
@@ -142,6 +158,7 @@
             const experimentSection = document.getElementById("experiment-section");
             const videoContainer = document.getElementById("video-container");
             const questionnaireContainer = document.getElementById("questionnaire-container");
+            const scenarioQuestionnaireContainer = document.getElementById("scenario-questionnaire-container");
             const nextScenarioButton = document.getElementById("next-scenario-button");
 
             if (!participant) {
@@ -152,7 +169,7 @@
             // Hide the input section and show the experiment section
             inputSection.style.display = "none";
             experimentSection.style.display = "block";
-            videoContainer.style.display = "block";
+            //videoContainer.style.display = "block";
 
             // Participant's scenario order
             const scenarioOrder = participant.order;
@@ -166,7 +183,9 @@
             let randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
 
             const videoElement = document.getElementById("current-video");
-            const submitQuestionnaireButton = document.getElementById("submit-questionnaire-button");
+            const submitVideoQuestionnaireButton = document.getElementById("submit-video-questionnaire-button");
+            const submitScenarioQuestionnaireButton = document.getElementById("submit-scenario-questionnaire-button");
+            //const submitQuestionnaireButton = document.getElementById("submit-questionnaire-button");
             //const nextVideoButton = document.getElementById("next-video-button");
 
             // Function to update the video
@@ -187,29 +206,24 @@
                 // Show the video container and hide the Next Scenario button
                 videoContainer.style.display = "block";
                 questionnaireContainer.style.display = "block";
+                scenarioQuestionnaireContainer.style.display = "none";
                 nextScenarioButton.style.display = "none";
             };
 
-            // Function to move to the next video or scenario
-            const moveToNext = () => {
-                const currentVideos = randomizedVideos;
+            const moveToNextScenario = () => {
+                document.getElementById("video-question1").value = "";
+                document.getElementById("video-question2").value = "";
+                document.getElementById("video-question3").value = "";
+                scenarioData = [];
+                console.log("scenario data : ", scenarioData);
+                currentScenarioIndex++;
+                currentVideoIndex = 0;
 
-                if (currentVideoIndex < currentVideos.length - 1) {
-                    // Move to the next video
-                    currentVideoIndex++;
-                    updateVideo();
-                } else if (currentScenarioIndex < scenarioOrder.length - 1) {
-                    // Move to the next scenario
-                    currentScenarioIndex++;
-                    currentVideoIndex = 0;
+                if (currentScenarioIndex < scenarioOrder.length) {
                     randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
                     updateVideo();
                 } else {
-                    // End of the experiment
-                    scenarioOrderDiv.innerHTML = `
-                        <h2>Thank You!</h2>
-                        <p>You have completed all scenarios and videos.</p>
-                    `;
+                    scenarioOrderDiv.innerHTML = `<h2>Thank You! You have completed the experiment.</h2>`;
                     videoContainer.style.display = "none";
                     questionnaireContainer.style.display = "none";
                     nextScenarioButton.style.display = "none";
@@ -218,37 +232,103 @@
                 }
             };
 
-            // Event listener for the "Submit Questionnaire" button
-            submitQuestionnaireButton.addEventListener("click", () => {
-                const question1 = document.getElementById("question1").value;
-                const question2 = document.getElementById("question2").value;
-                const question3 = document.getElementById("question3").value;
 
-                if (!question1 || !question2) {
+            const moveToNextVideo = () => {
+                const currentVideos = randomizedVideos;
+
+                if (currentVideoIndex < currentVideos.length - 1) {
+                    currentVideoIndex++;
+                    updateVideo();
+                } else {
+                    questionnaireContainer.style.display = "none";
+                    //scenarioQuestionnaireContainer.style.display = "block";
+                    console.log("scenario ques : ");
+                    //nextScenarioButton.style.display = "block";
+                }
+            };
+
+
+            // Event listener for the "Submit Questionnaire" button
+            submitVideoQuestionnaireButton.addEventListener("click", () => {
+                const videoQuestion1 = document.getElementById("video-question1").value;
+                const videoQuestion2 = document.getElementById("video-question2").value;
+                const videoQuestion3 = document.getElementById("video-question3").value;
+
+                if (!videoQuestion1 || !videoQuestion2) {
                     alert("Please answer all required questions.");
                     return;
                 }
-
+                console.log("current video indexe ", currentVideoIndex);
                 // Save the responses
                 answers.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
                     video: randomizedVideos[currentVideoIndex],
-                    responses: { question1, question2, question3 }
+                    responses: { videoQuestion1, videoQuestion2, videoQuestion3 }
+                });
+                scenarioData.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    video: randomizedVideos[currentVideoIndex],
+                    responses: { videoQuestion1, videoQuestion2, videoQuestion3 }
+                });
+                if (currentVideoIndex >= 5)
+                {
+                    questionnaireContainer.style.display = "none";
+                    videoContainer.style.display = "none";
+                    scenarioQuestionnaireContainer.style.display = "block";
+                    //nextScenarioButton.style.display = "block";
+                }
+                else {
+                    document.getElementById("video-question1").value = "";
+                    document.getElementById("video-question2").value = "";
+                    document.getElementById("video-question3").value = "";
+
+                    moveToNextVideo();
+                }
+                // Reset the questionnaire
+                
+            });
+
+            submitScenarioQuestionnaireButton.addEventListener("click", () => {
+                const scenarioQuestion1 = document.getElementById("scenario-question1").value;
+                const scenarioQuestion2 = document.getElementById("scenario-question2").value;
+                const scenarioQuestion3 = document.getElementById("scenario-question3").value;
+
+                if (!scenarioQuestion1 || !scenarioQuestion2) {
+                    alert("Please answer all required questions.");
+                    return;
+                }
+
+                answers.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    scenarioResponses: { scenarioQuestion1, scenarioQuestion2, scenarioQuestion3 }
                 });
 
-                // Reset the questionnaire
-                document.getElementById("question1").value = "";
-                document.getElementById("question2").value = "";
-                document.getElementById("question3").value = "";
+                scenarioData.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    responses: { scenarioQuestion1, scenarioQuestion2, scenarioQuestion3  }
+                });
 
-                moveToNext();
+                //document.getElementById("scenario-question1").value = "";
+                //document.getElementById("scenario-question2").value = "";
+                //document.getElementById("scenario-question3").value = "";
+
+                nextScenarioButton.style.display = "block";
             });
+
+            nextScenarioButton.addEventListener("click", moveToNextScenario);
 
             // Initialize the first video
             updateVideo();
+
+            
+
         }
 
+        
         // Event listener for the "Start" button
         document.getElementById("start-button").addEventListener("click", () => {
             const participantIDInput = document.getElementById("participant-id-input").value;
