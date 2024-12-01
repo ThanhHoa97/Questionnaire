@@ -9,8 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        #video-container {
-            margin-top: 20px;
+        #video-container, #experiment-section {
+            display: none;
         }
         button {
             margin-top: 20px;
@@ -18,22 +18,35 @@
             font-size: 16px;
             cursor: pointer;
         }
+        video {
+            display: block;
+            margin-top: 20px;
+            width: 640px;
+            height: 360px;
+        }
     </style>
 </head>
 <body>
     <h1>Welcome to the Experiment</h1>
-    <div id="scenario-order"></div>
-    <div id="video-container">
-        <video id="current-video" width="640" height="360" controls>
-            Your browser does not support the video tag.
-        </video>
-        <br>
-        <button id="next-video-button">Next Video</button>
+    <div id="input-section">
+        <p>Please enter your Participant ID to begin:</p>
+        <input type="number" id="participant-id-input" placeholder="Enter Participant ID">
+        <button id="start-button">Start</button>
+    </div>
+
+    <div id="experiment-section">
+        <div id="scenario-order"></div>
+        <div id="video-container">
+            <video id="current-video" controls>
+                Your browser does not support the video tag.
+            </video>
+            <button id="next-video-button">Next Video</button>
+        </div>
     </div>
 
     <script>
         // CSV file URL (replace with your GitHub file URL)
-        const csvUrl = "https://github.com/ThanhHoa97/Questionnaire/latinsquare.csv";
+        const csvUrl = "https://raw.githubusercontent.com/ThanhHoa97/Questionnaire/main/latinsquare.csv";
 
         // Videos for each scenario
         const videos = {
@@ -59,11 +72,8 @@
             return parsed;
         }
 
-        // Display videos and handle navigation
-        async function displayScenarioVideos() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const participantID = parseInt(urlParams.get("id"), 10);
-
+        // Start the experiment for a given participant ID
+        async function startExperiment(participantID) {
             // Fetch and parse the CSV file
             const data = await fetchCSV(csvUrl);
 
@@ -71,14 +81,19 @@
             const participant = data.find(entry => entry.id === participantID);
 
             const scenarioOrderDiv = document.getElementById("scenario-order");
+            const inputSection = document.getElementById("input-section");
+            const experimentSection = document.getElementById("experiment-section");
+            const videoContainer = document.getElementById("video-container");
 
             if (!participant) {
-                scenarioOrderDiv.innerHTML = `
-                    <h2>Error: Invalid Participant ID</h2>
-                    <p>Please ensure the URL contains a valid participant ID (e.g., ?id=1).</p>
-                `;
+                alert("Invalid Participant ID. Please try again.");
                 return;
             }
+
+            // Hide the input section and show the experiment section
+            inputSection.style.display = "none";
+            experimentSection.style.display = "block";
+            videoContainer.style.display = "block";
 
             // Participant's scenario order
             const scenarioOrder = participant.order;
@@ -132,8 +147,18 @@
             updateVideo();
         }
 
-        // Start the process when the page loads
-        displayScenarioVideos();
+        // Event listener for the "Start" button
+        document.getElementById("start-button").addEventListener("click", () => {
+            const participantIDInput = document.getElementById("participant-id-input").value;
+            const participantID = parseInt(participantIDInput, 10);
+
+            if (!participantID || participantID < 1) {
+                alert("Please enter a valid Participant ID.");
+                return;
+            }
+
+            startExperiment(participantID);
+        });
     </script>
 </body>
 </html>
