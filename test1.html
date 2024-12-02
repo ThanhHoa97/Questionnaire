@@ -12,6 +12,15 @@
         #video-container, #experiment-section, #questionnaire-container, #scenario-questionnaire-container {
             display: none;
         }
+        #image-container-1,  #image-container-2,  #image-container-3,  #image-container-4,  #image-container-5 {
+            display: none;
+        }
+        /* Style for each image */
+        .image-container img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+        }
         button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -70,6 +79,88 @@
             </div>
             <button id="submit-video-questionnaire-button">Submit Video Questionnaire</button>
         </div>
+
+        <!-- image for scenario 1 -->
+        <div class="image-container" id="image-container-1">
+            <!-- Image 1 -->
+            <img src="images/scenario1/image1-1.png" alt="Image 1-1">
+            <!-- Image 2 -->
+            <img src="images/scenario1/image1-2.png" alt="Image 1-2">
+            <!-- Image 3 -->
+            <img src="images/scenario1/image1-3.png" alt="Image 1-3">
+            <!-- Image 4 -->
+            <img src="images/scenario1/image1-4.png" alt="Image 1-4">
+            <!-- Image 5 -->
+            <img src="images/scenario1/image1-5.png" alt="Image 1-5">
+            <!-- Image 6 -->
+            <img src="images/scenario1/image1-6.png" alt="Image 1-6">
+        </div>
+
+        <!-- image for scenario 2 -->
+        <div class="image-container" id="image-container-2">
+            <!-- Image 1 -->
+            <img src="images/scenario2/image2-1.png" alt="Image 2-1">
+            <!-- Image 2 -->
+            <img src="images/scenario2/image2-2.png" alt="Image 2-2">
+            <!-- Image 3 -->
+            <img src="images/scenario2/image2-3.png" alt="Image 2-3">
+            <!-- Image 4 -->
+            <img src="images/scenario2/image2-4.png" alt="Image 2-4">
+            <!-- Image 5 -->
+            <img src="images/scenario2/image2-5.png" alt="Image 2-5">
+            <!-- Image 6 -->
+            <img src="images/scenario2/image2-6.png" alt="Image 2-6">
+        </div>
+
+        <!-- image for scenario 3 -->
+        <div class="image-container" id="image-container-3">
+            <!-- Image 1 -->
+            <img src="images/scenario3/image3-1.png" alt="Image 3-1">
+            <!-- Image 2 -->
+            <img src="images/scenario3/image3-2.png" alt="Image 3-2">
+            <!-- Image 3 -->
+            <img src="images/scenario3/image3-3.png" alt="Image 3-3">
+            <!-- Image 4 -->
+            <img src="images/scenario3/image3-4.png" alt="Image 3-4">
+            <!-- Image 5 -->
+            <img src="images/scenario3/image3-5.png" alt="Image 3-5">
+            <!-- Image 6 -->
+            <img src="images/scenario3/image3-6.png" alt="Image 3-6">
+        </div>
+
+         <!-- image for scenario 4 -->
+         <div class="image-container" id="image-container-4">
+            <!-- Image 1 -->
+            <img src="images/scenario4/image4-1.png" alt="Image 4-1">
+            <!-- Image 2 -->
+            <img src="images/scenario4/image4-2.png" alt="Image 4-2">
+            <!-- Image 3 -->
+            <img src="images/scenario4/image4-3.png" alt="Image 4-3">
+            <!-- Image 4 -->
+            <img src="images/scenario4/image4-4.png" alt="Image 4-4">
+            <!-- Image 5 -->
+            <img src="images/scenario4/image4-5.png" alt="Image 4-5">
+            <!-- Image 6 -->
+            <img src="images/scenario4/image4-6.png" alt="Image 4-6">
+        </div>
+
+        <!-- image for scenario 5 -->
+        <div class="image-container" id="image-container-5">
+            <!-- Image 1 -->
+            <img src="images/scenario5/image5-1.png" alt="Image 5-1">
+            <!-- Image 2 -->
+            <img src="images/scenario5/image5-2.png" alt="Image 5-2">
+            <!-- Image 3 -->
+            <img src="images/scenario5/image5-3.png" alt="Image 5-3">
+            <!-- Image 4 -->
+            <img src="images/scenario5/image5-4.png" alt="Image 5-4">
+            <!-- Image 5 -->
+            <img src="images/scenario5/image5-5.png" alt="Image 5-5">
+            <!-- Image 6 -->
+            <img src="images/scenario5/image5-6.png" alt="Image 5-6">
+        </div>
+
+
         <div id="scenario-questionnaire-container">
             <h3>Scenario Questionnaire</h3>
             <div class="question">
@@ -87,6 +178,8 @@
             <button id="submit-scenario-questionnaire-button">Submit Scenario Questionnaire</button>
         </div>
         <button id="next-scenario-button" style="display: none;">Next Scenario</button>
+        
+
     </div>
 
     <div id="completion-message" class="hidden">
@@ -144,6 +237,7 @@
         const answers = [];
         let scenarioData = [];
 
+
         // Start the experiment for a given participant ID
         async function startExperiment(participantID) {
             // Fetch and parse the CSV file
@@ -159,6 +253,11 @@
             const videoContainer = document.getElementById("video-container");
             const questionnaireContainer = document.getElementById("questionnaire-container");
             const scenarioQuestionnaireContainer = document.getElementById("scenario-questionnaire-container");
+            //const imagecontainer1 = document.getElementById("image-container-1");
+            //const imagecontainer2 = document.getElementById("image-container-2");
+            //const imagecontainer3 = document.getElementById("image-container-3");
+            //const imagecontainer4 = document.getElementById("image-container-4");
+            //const imagecontainer5 = document.getElementById("image-container-5");
             const nextScenarioButton = document.getElementById("next-scenario-button");
 
             if (!participant) {
@@ -188,12 +287,20 @@
             //const submitQuestionnaireButton = document.getElementById("submit-questionnaire-button");
             //const nextVideoButton = document.getElementById("next-video-button");
 
+            //get scenario indiex for image
+            let strScenario = scenarioOrder[currentScenarioIndex];
+            let lastChar = strScenario.charAt(strScenario.length - 1);
+            console.log("lastChar ", lastChar);
+            let imagecontainerId = 'image-container-'+ lastChar;
+            let imagecontainer = document.getElementById(imagecontainerId);
+            console.log("imagecontainerId : ",imagecontainerId);
+            console.log("imagecontainer : ",imagecontainer);
+
             // Function to update the video
             const updateVideo = () => {
                 const currentScenario = scenarioOrder[currentScenarioIndex];
                 //const currentVideos = videos[currentScenario];
                 const currentVideos = randomizedVideos;
-                console.log("video order : ", currentVideos);
 
                 videoElement.src = currentVideos[currentVideoIndex];
 
@@ -207,6 +314,7 @@
                 videoContainer.style.display = "block";
                 questionnaireContainer.style.display = "block";
                 scenarioQuestionnaireContainer.style.display = "none";
+                imagecontainer.style.display = "none";
                 nextScenarioButton.style.display = "none";
             };
 
@@ -214,6 +322,9 @@
                 document.getElementById("video-question1").value = "";
                 document.getElementById("video-question2").value = "";
                 document.getElementById("video-question3").value = "";
+                document.getElementById("scenario-question1").value = "";
+                document.getElementById("scenario-question2").value = "";
+                document.getElementById("scenario-question3").value = "";
                 scenarioData = [];
                 console.log("scenario data : ", scenarioData);
                 currentScenarioIndex++;
@@ -242,7 +353,6 @@
                 } else {
                     questionnaireContainer.style.display = "none";
                     //scenarioQuestionnaireContainer.style.display = "block";
-                    console.log("scenario ques : ");
                     //nextScenarioButton.style.display = "block";
                 }
             };
@@ -259,6 +369,7 @@
                     return;
                 }
                 console.log("current video indexe ", currentVideoIndex);
+                console.log("current scenario indexe 1 ", scenarioOrder[currentScenarioIndex]);
                 // Save the responses
                 answers.push({
                     participantID,
@@ -276,6 +387,18 @@
                 {
                     questionnaireContainer.style.display = "none";
                     videoContainer.style.display = "none";
+                    console.log("current scenario indexe 1 ", currentScenarioIndex);
+
+                    //get scenario indiex for image
+                    strScenario = scenarioOrder[currentScenarioIndex];
+                    lastChar = strScenario.charAt(strScenario.length - 1);
+                    console.log("lastChar ", lastChar);
+                    imagecontainerId = 'image-container-'+ lastChar;
+                    imagecontainer = document.getElementById(imagecontainerId);
+                    console.log("imagecontainerId : ",imagecontainerId);
+                    console.log("imagecontainer : ",imagecontainer);
+
+                    imagecontainer.style.display = "block";
                     scenarioQuestionnaireContainer.style.display = "block";
                     //nextScenarioButton.style.display = "block";
                 }
@@ -311,10 +434,6 @@
                     scenario: scenarioOrder[currentScenarioIndex],
                     responses: { scenarioQuestion1, scenarioQuestion2, scenarioQuestion3  }
                 });
-
-                //document.getElementById("scenario-question1").value = "";
-                //document.getElementById("scenario-question2").value = "";
-                //document.getElementById("scenario-question3").value = "";
 
                 nextScenarioButton.style.display = "block";
             });
