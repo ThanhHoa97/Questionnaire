@@ -6,8 +6,12 @@
     <title>Participant Experiment</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: Arial, sans-serif; 
+            max-width: 1000px; 
+            margin: 20px auto; 
+            background-color: #f4f4f9; 
+            color: #333; 
+            line-height: 1.6;
         }
         #video-container, #experiment-section, #questionnaire-container, #scenario-questionnaire-container {
             display: none;
@@ -30,14 +34,33 @@
         video {
             display: block;
             margin-top: 20px;
-            width: 640px;
-            height: 360px;
+            width: 900px;
         }
         .question {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .hidden {
             display: none;
+        }
+        /* Initially hide the form */
+        #questionnaire-form {
+            display: none;
+            margin-top: 30px;
+            max-width: 700px;
+        }
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        .likert-scale input[type="radio"] {
+            margin: 0 10px;
+            cursor: pointer;
         }
     </style>
 
@@ -63,22 +86,82 @@
                 Your browser does not support the video tag.
             </video>
         </div>
-        <div id="questionnaire-container">
-            <h3>Video Questionnaire</h3>
+
+
+        <form id="questionnaire-container">
+            <h3>Please answer these questions</h3>
+            <!-- Question 1 -->
             <div class="question">
-                <label for="video-question1">How engaging was the video? (1-5):</label>
-                <input type="number" id="video-question1" min="1" max="5" required>
+                <label for="q1">1. I trust the system:</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q1" value="1"> 1<br> Strongly Disagree</label>
+                    <label><input type="radio" name="q1" value="2"> 2</label>
+                    <label><input type="radio" name="q1" value="3"> 3</label>
+                    <label><input type="radio" name="q1" value="4"> 4</label>
+                    <label><input type="radio" name="q1" value="5"> 5<br> Strongly Agree</label>
+                </div>
             </div>
+    
+            <!-- Question 2 -->
             <div class="question">
-                <label for="video-question2">How clear was the content? (1-5):</label>
-                <input type="number" id="video-question2" min="1" max="5" required>
+                <label for="q2">2. How easily can you detect the dangerous element?</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q2" value="1"> 1<br> Very Easy</label>
+                    <label><input type="radio" name="q2" value="2"> 2</label>
+                    <label><input type="radio" name="q2" value="3"> 3</label>
+                    <label><input type="radio" name="q2" value="4"> 4</label>
+                    <label><input type="radio" name="q2" value="5"> 5</label>
+                    <label><input type="radio" name="q2" value="6"> 6</label>
+                    <label><input type="radio" name="q2" value="7"> 7</label>
+                    <label><input type="radio" name="q2" value="8"> 8</label>
+                    <label><input type="radio" name="q2" value="9"> 9<br> Very Difficult</label>
+                </div>
             </div>
+    
+            <!-- Question 3 -->
             <div class="question">
-                <label for="video-question3">Additional comments:</label>
-                <textarea id="video-question3"></textarea>
+                <label for="q3">3. How much is your attention divided in the situation? (re you concentrating on any aspect of the situation (High) (ex: dangerous element and environment around) or focused on only one (low) )</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q3" value="1"> 1<br> Low</label>
+                    <label><input type="radio" name="q3" value="2"> 2</label>
+                    <label><input type="radio" name="q3" value="3"> 3</label>
+                    <label><input type="radio" name="q3" value="4"> 4</label>
+                    <label><input type="radio" name="q3" value="5"> 5</label>
+                    <label><input type="radio" name="q3" value="6"> 6</label>
+                    <label><input type="radio" name="q3" value="7"> 7<br> High</label>
+                </div>
             </div>
-            <button id="submit-video-questionnaire-button">Submit Video Questionnaire</button>
-        </div>
+    
+            <!-- Question 4 -->
+            <div class="question">
+                <label for="q4">4. How complicated is the situation?</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q4" value="1"> 1<br> Very Simple</label>
+                    <label><input type="radio" name="q4" value="2"> 2</label>
+                    <label><input type="radio" name="q4" value="3"> 3</label>
+                    <label><input type="radio" name="q4" value="4"> 4</label>
+                    <label><input type="radio" name="q4" value="5"> 5</label>
+                    <label><input type="radio" name="q4" value="6"> 6</label>
+                    <label><input type="radio" name="q4" value="7"> 7<br> Very Complex</label>
+                </div>
+            </div>
+    
+            <!-- Question 5 -->
+            <div class="question">
+                <label for="q5">5. Please rate your perceived safety:</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q5" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
+                    <label><input type="radio" name="q5" value="-2"> -2</label>
+                    <label><input type="radio" name="q5" value="-1"> -1</label>
+                    <label><input type="radio" name="q5" value="0"> 0</label>
+                    <label><input type="radio" name="q5" value="1"> 1</label>
+                    <label><input type="radio" name="q5" value="2"> 2</label>
+                    <label><input type="radio" name="q5" value="3"> 3<br>relaxed / calm / safe / confident</label>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit">Submit Questionnaire</button>
+        </form>
 
         <!-- image for scenario 1 -->
         <div class="image-container" id="image-container-1">
@@ -158,27 +241,67 @@
             <img src="images/scenario5/image5-5.png" alt="Image 5-5">
             <!-- Image 6 -->
             <img src="images/scenario5/image5-6.png" alt="Image 5-6">
-        </div>
+        </div>       
 
 
-        <div id="scenario-questionnaire-container">
-            <h3>Scenario Questionnaire</h3>
+        <form id="scenario-questionnaire-container">
+            <h3>Please answer these questions below:</h3>
+            <!-- Question 1 -->
             <div class="question">
-                <label for="scenario-question1">How challenging was this scenario? (1-5):</label>
-                <input type="number" id="scenario-question1" min="1" max="5" required>
+                <label for="q2-1">1. Which visualization make you trust the autonomous vehicle most:</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q2-1" value="1"> Visualization 1</label>
+                    <label><input type="radio" name="q2-1" value="2"> Visualization 2</label>
+                    <label><input type="radio" name="q2-1" value="3"> Visualization 3</label>
+                    <label><input type="radio" name="q2-1" value="4"> Visualization 4</label>
+                    <label><input type="radio" name="q2-1" value="5"> Visualization 5</label>
+                    <label><input type="radio" name="q2-1" value="6"> Visualization 6</label>
+                </div>
             </div>
+    
+            <!-- Question 2 -->
             <div class="question">
-                <label for="scenario-question2">What was your overall experience? (1-5):</label>
-                <input type="number" id="scenario-question2" min="1" max="5" required>
+                <label for="q2-2">2. Which visualization make you feel the most safety </label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q2-2" value="1"> Visualization 1</label>
+                    <label><input type="radio" name="q2-2" value="2"> Visualization 2</label>
+                    <label><input type="radio" name="q2-2" value="3"> Visualization 3</label>
+                    <label><input type="radio" name="q2-2" value="4"> Visualization 4</label>
+                    <label><input type="radio" name="q2-2" value="5"> Visualization 5</label>
+                    <label><input type="radio" name="q2-2" value="6"> Visualization 6</label>
+
+                </div>
             </div>
+    
+            <!-- Question 3 -->
             <div class="question">
-                <label for="scenario-question3">General comments about this scenario:</label>
-                <textarea id="scenario-question3"></textarea>
+                <label for="q2-3">3. Which visualization increase your situation awereness most</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q2-3" value="1"> Visualization 1<br> Low</label>
+                    <label><input type="radio" name="q2-3" value="2"> Visualization 2</label>
+                    <label><input type="radio" name="q2-3" value="3"> Visualization 3</label>
+                    <label><input type="radio" name="q2-3" value="4"> Visualization 4</label>
+                    <label><input type="radio" name="q2-3" value="5"> Visualization 5</label>
+                    <label><input type="radio" name="q2-3" value="6"> Visualization 6</label>
+                </div>
             </div>
-            <button id="submit-scenario-questionnaire-button">Submit Scenario Questionnaire</button>
-        </div>
+    
+            <!-- Question 4 -->
+            <div class="question">
+                <label for="q2-4">4. Which visualization you like most</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q2-4" value="1"> Visualization 1</label>
+                    <label><input type="radio" name="q2-4" value="2"> Visualization 2</label>
+                    <label><input type="radio" name="q2-4" value="3"> Visualization 3</label>
+                    <label><input type="radio" name="q2-4" value="4"> Visualization 4</label>
+                    <label><input type="radio" name="q2-4" value="5"> Visualization 5</label>
+                    <label><input type="radio" name="q2-4" value="6"> Visualization 6</label>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit">Submit Scenario Questionnaire</button>
+        </form>
         <button id="next-scenario-button" style="display: none;">Next Scenario</button>
-        
 
     </div>
 
@@ -282,8 +405,8 @@
             let randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
 
             const videoElement = document.getElementById("current-video");
-            const submitVideoQuestionnaireButton = document.getElementById("submit-video-questionnaire-button");
-            const submitScenarioQuestionnaireButton = document.getElementById("submit-scenario-questionnaire-button");
+            //const submitVideoQuestionnaireButton = document.getElementById("submit-video-questionnaire-button");
+            //const submitScenarioQuestionnaireButton = document.getElementById("submit-scenario-questionnaire-button");
             //const submitQuestionnaireButton = document.getElementById("submit-questionnaire-button");
             //const nextVideoButton = document.getElementById("next-video-button");
 
@@ -319,12 +442,14 @@
             };
 
             const moveToNextScenario = () => {
-                document.getElementById("video-question1").value = "";
-                document.getElementById("video-question2").value = "";
-                document.getElementById("video-question3").value = "";
-                document.getElementById("scenario-question1").value = "";
-                document.getElementById("scenario-question2").value = "";
-                document.getElementById("scenario-question3").value = "";
+                //document.getElementById("video-question1").value = "";
+                //document.getElementById("video-question2").value = "";
+                //document.getElementById("video-question3").value = "";
+                clearAnswers('questionnaire-container');
+                clearAnswers('scenario-questionnaire-container');
+                //document.getElementById("scenario-question1").value = "";
+                //document.getElementById("scenario-question2").value = "";
+                //document.getElementById("scenario-question3").value = "";
                 scenarioData = [];
                 console.log("scenario data : ", scenarioData);
                 currentScenarioIndex++;
@@ -359,12 +484,17 @@
 
 
             // Event listener for the "Submit Questionnaire" button
-            submitVideoQuestionnaireButton.addEventListener("click", () => {
-                const videoQuestion1 = document.getElementById("video-question1").value;
-                const videoQuestion2 = document.getElementById("video-question2").value;
-                const videoQuestion3 = document.getElementById("video-question3").value;
+            document.getElementById('questionnaire-container').addEventListener('submit', function(event) {
+                event.preventDefault();  // Prevent the form from reloading the page
 
-                if (!videoQuestion1 || !videoQuestion2) {
+                // Get the values of each selected radio button using getElementById
+                const q1 = getSelectedValue('q1');
+                const q2 = getSelectedValue('q2');
+                const q3 = getSelectedValue('q3');
+                const q4 = getSelectedValue('q4');
+                const q5 = getSelectedValue('q5');
+
+                if (!q1 || !q2 || !q3 || !q4 || !q5) {
                     alert("Please answer all required questions.");
                     return;
                 }
@@ -375,13 +505,13 @@
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
                     video: randomizedVideos[currentVideoIndex],
-                    responses: { videoQuestion1, videoQuestion2, videoQuestion3 }
+                    responses: { q1, q2, q3, q4, q5}
                 });
                 scenarioData.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
                     video: randomizedVideos[currentVideoIndex],
-                    responses: { videoQuestion1, videoQuestion2, videoQuestion3 }
+                    responses: { q1, q2, q3, q4, q5}
                 });
                 if (currentVideoIndex >= 5)
                 {
@@ -403,22 +533,38 @@
                     //nextScenarioButton.style.display = "block";
                 }
                 else {
-                    document.getElementById("video-question1").value = "";
-                    document.getElementById("video-question2").value = "";
-                    document.getElementById("video-question3").value = "";
-
                     moveToNextVideo();
+                    clearAnswers('questionnaire-container');
                 }
                 // Reset the questionnaire
                 
             });
 
-            submitScenarioQuestionnaireButton.addEventListener("click", () => {
-                const scenarioQuestion1 = document.getElementById("scenario-question1").value;
-                const scenarioQuestion2 = document.getElementById("scenario-question2").value;
-                const scenarioQuestion3 = document.getElementById("scenario-question3").value;
+            function getSelectedValue(questionId) {
+                const selectedRadio = document.querySelector(`input[name="${questionId}"]:checked`);
+                return selectedRadio ? selectedRadio.value : null;
+            }
 
-                if (!scenarioQuestion1 || !scenarioQuestion2) {
+            // Helper function to clear all radio button selections in a given section
+            function clearAnswers(sectionId) {
+            const radios = document.querySelectorAll(`#${sectionId} input[type="radio"]`);
+            radios.forEach(radio => radio.checked = false);
+            }
+
+            document.getElementById('scenario-questionnaire-container').addEventListener('submit', function(event) {
+                //const scenarioQuestion1 = document.getElementById("scenario-question1").value;
+                //const scenarioQuestion2 = document.getElementById("scenario-question2").value;
+                //const scenarioQuestion3 = document.getElementById("scenario-question3").value;
+                event.preventDefault();  // Prevent the form from reloading the page
+                
+                console.log("hihi ");
+                const q2_1 = getSelectedValue('q2-1');
+                const q2_2 = getSelectedValue('q2-2');
+                const q2_3 = getSelectedValue('q2-3');
+                const q2_4 = getSelectedValue('q2-4');
+                console.log("q2-1 is : ", q2_1);
+
+                if (!q2_1 || !q2_2 || !q2_3 || !q2_4 ) {
                     alert("Please answer all required questions.");
                     return;
                 }
@@ -426,13 +572,13 @@
                 answers.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
-                    scenarioResponses: { scenarioQuestion1, scenarioQuestion2, scenarioQuestion3 }
+                    scenarioResponses: { q2_1, q2_2, q2_3, q2_4}
                 });
 
                 scenarioData.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
-                    responses: { scenarioQuestion1, scenarioQuestion2, scenarioQuestion3  }
+                    responses: { q2_1, q2_2, q2_3, q2_4 }
                 });
 
                 nextScenarioButton.style.display = "block";
