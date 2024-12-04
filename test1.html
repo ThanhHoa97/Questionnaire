@@ -21,8 +21,7 @@
         }
         /* Style for each image */
         .image-container img {
-            width: 200px;
-            height: 150px;
+            width: 1000px;
             object-fit: cover;
         }
         button {
@@ -62,6 +61,37 @@
             margin: 0 10px;
             cursor: pointer;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="number"] {
+            width: 50px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
     </style>
 
 
@@ -97,7 +127,9 @@
                     <label><input type="radio" name="q1" value="2"> 2</label>
                     <label><input type="radio" name="q1" value="3"> 3</label>
                     <label><input type="radio" name="q1" value="4"> 4</label>
-                    <label><input type="radio" name="q1" value="5"> 5<br> Strongly Agree</label>
+                    <label><input type="radio" name="q1" value="5"> 5</label>
+                    <label><input type="radio" name="q1" value="6"> 6</label>
+                    <label><input type="radio" name="q1" value="7"> 7<br> Strongly Agree</label>
                 </div>
             </div>
     
@@ -111,9 +143,7 @@
                     <label><input type="radio" name="q2" value="4"> 4</label>
                     <label><input type="radio" name="q2" value="5"> 5</label>
                     <label><input type="radio" name="q2" value="6"> 6</label>
-                    <label><input type="radio" name="q2" value="7"> 7</label>
-                    <label><input type="radio" name="q2" value="8"> 8</label>
-                    <label><input type="radio" name="q2" value="9"> 9<br> Very Difficult</label>
+                    <label><input type="radio" name="q2" value="7"> 7<br> Very Difficult</label>
                 </div>
             </div>
     
@@ -149,13 +179,13 @@
             <div class="question">
                 <label for="q5">5. Please rate your perceived safety:</label>
                 <div class="likert-scale">
-                    <label><input type="radio" name="q5" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
-                    <label><input type="radio" name="q5" value="-2"> -2</label>
-                    <label><input type="radio" name="q5" value="-1"> -1</label>
-                    <label><input type="radio" name="q5" value="0"> 0</label>
-                    <label><input type="radio" name="q5" value="1"> 1</label>
+                    <label><input type="radio" name="q5" value="1"> 1<br>anxious / agitated / unsafe / timid</label>
                     <label><input type="radio" name="q5" value="2"> 2</label>
-                    <label><input type="radio" name="q5" value="3"> 3<br>relaxed / calm / safe / confident</label>
+                    <label><input type="radio" name="q5" value="3"> 3</label>
+                    <label><input type="radio" name="q5" value="4"> 4</label>
+                    <label><input type="radio" name="q5" value="5"> 5</label>
+                    <label><input type="radio" name="q5" value="6"> 6</label>
+                    <label><input type="radio" name="q5" value="7"> 7<br>relaxed / calm / safe / confident</label>
                 </div>
             </div>
             <!-- Submit Button -->
@@ -165,144 +195,89 @@
         <!-- image for scenario 1 -->
         <div class="image-container" id="image-container-1">
             <!-- Image 1 -->
-            <img src="images/scenario1/image1-1.png" alt="Image 1-1">
-            <p>Visualization 1.</p>
-            <!-- Image 2 -->
-            <img src="images/scenario1/image1-2.png" alt="Image 1-2">
-            <p>Visualization 2.</p>
-            <!-- Image 3 -->
-            <img src="images/scenario1/image1-3.png" alt="Image 1-3">
-            <p>Visualization 3.</p>
-            <!-- Image 4 -->
-            <img src="images/scenario1/image1-4.png" alt="Image 1-4">
-            <p>Visualization 4.</p>
-            <!-- Image 5 -->
-            <img src="images/scenario1/image1-5.png" alt="Image 1-5">
-            <p>Visualization 5.</p>
-            <!-- Image 6 -->
-            <img src="images/scenario1/image1-6.png" alt="Image 1-6">
-            <p>Visualization 6.</p>
+            <img src="images/scenario1/image1.png" alt="Image 1">
         </div>
 
         <!-- image for scenario 2 -->
         <div class="image-container" id="image-container-2">
             <!-- Image 1 -->
-            <img src="images/scenario2/image2-1.png" alt="Image 2-1">
-            <!-- Image 2 -->
-            <img src="images/scenario2/image2-2.png" alt="Image 2-2">
-            <!-- Image 3 -->
-            <img src="images/scenario2/image2-3.png" alt="Image 2-3">
-            <!-- Image 4 -->
-            <img src="images/scenario2/image2-4.png" alt="Image 2-4">
-            <!-- Image 5 -->
-            <img src="images/scenario2/image2-5.png" alt="Image 2-5">
-            <!-- Image 6 -->
-            <img src="images/scenario2/image2-6.png" alt="Image 2-6">
+            <img src="images/scenario2/image2-2.png" alt="Image 2">
         </div>
 
         <!-- image for scenario 3 -->
         <div class="image-container" id="image-container-3">
             <!-- Image 1 -->
-            <img src="images/scenario3/image3-1.png" alt="Image 3-1">
-            <!-- Image 2 -->
-            <img src="images/scenario3/image3-2.png" alt="Image 3-2">
-            <!-- Image 3 -->
-            <img src="images/scenario3/image3-3.png" alt="Image 3-3">
-            <!-- Image 4 -->
-            <img src="images/scenario3/image3-4.png" alt="Image 3-4">
-            <!-- Image 5 -->
-            <img src="images/scenario3/image3-5.png" alt="Image 3-5">
-            <!-- Image 6 -->
-            <img src="images/scenario3/image3-6.png" alt="Image 3-6">
+            <img src="images/scenario3/image3.png" alt="Image 3">
         </div>
 
          <!-- image for scenario 4 -->
          <div class="image-container" id="image-container-4">
             <!-- Image 1 -->
-            <img src="images/scenario4/image4-1.png" alt="Image 4-1">
-            <!-- Image 2 -->
-            <img src="images/scenario4/image4-2.png" alt="Image 4-2">
-            <!-- Image 3 -->
-            <img src="images/scenario4/image4-3.png" alt="Image 4-3">
-            <!-- Image 4 -->
-            <img src="images/scenario4/image4-4.png" alt="Image 4-4">
-            <!-- Image 5 -->
-            <img src="images/scenario4/image4-5.png" alt="Image 4-5">
-            <!-- Image 6 -->
-            <img src="images/scenario4/image4-6.png" alt="Image 4-6">
+            <img src="images/scenario4/image4.png" alt="Image 4">
         </div>
 
         <!-- image for scenario 5 -->
         <div class="image-container" id="image-container-5">
             <!-- Image 1 -->
-            <img src="images/scenario5/image5-1.png" alt="Image 5-1">
-            <!-- Image 2 -->
-            <img src="images/scenario5/image5-2.png" alt="Image 5-2">
-            <!-- Image 3 -->
-            <img src="images/scenario5/image5-3.png" alt="Image 5-3">
-            <!-- Image 4 -->
-            <img src="images/scenario5/image5-4.png" alt="Image 5-4">
-            <!-- Image 5 -->
-            <img src="images/scenario5/image5-5.png" alt="Image 5-5">
-            <!-- Image 6 -->
-            <img src="images/scenario5/image5-6.png" alt="Image 5-6">
+            <img src="images/scenario5/image5.png" alt="Image 5">
         </div>       
 
 
         <form id="scenario-questionnaire-container">
-            <h3><h3>Thanks for finish this scenario, please answer these question below: </h3></h3>
-            <!-- Question 1 -->
-            <div class="question">
-                <label for="q2-1">1. Which visualization makes you trust the autonomous vehicle the most?</label>
-                <div class="likert-scale">
-                    <label><input type="radio" name="q2-1" value="1"> Visualization 1</label>
-                    <label><input type="radio" name="q2-1" value="2"> Visualization 2</label>
-                    <label><input type="radio" name="q2-1" value="3"> Visualization 3</label>
-                    <label><input type="radio" name="q2-1" value="4"> Visualization 4</label>
-                    <label><input type="radio" name="q2-1" value="5"> Visualization 5</label>
-                    <label><input type="radio" name="q2-1" value="6"> Visualization 6</label>
-                </div>
-            </div>
-    
-            <!-- Question 2 -->
-            <div class="question">
-                <label for="q2-2">2. Which visualization makes you feel the safest? </label>
-                <div class="likert-scale">
-                    <label><input type="radio" name="q2-2" value="1"> Visualization 1</label>
-                    <label><input type="radio" name="q2-2" value="2"> Visualization 2</label>
-                    <label><input type="radio" name="q2-2" value="3"> Visualization 3</label>
-                    <label><input type="radio" name="q2-2" value="4"> Visualization 4</label>
-                    <label><input type="radio" name="q2-2" value="5"> Visualization 5</label>
-                    <label><input type="radio" name="q2-2" value="6"> Visualization 6</label>
-
-                </div>
-            </div>
-    
-            <!-- Question 3 -->
-            <div class="question">
-                <label for="q2-3">3. Which visualization increases your situational awareness the most?</label>
-                <div class="likert-scale">
-                    <label><input type="radio" name="q2-3" value="1"> Visualization 1<br> Low</label>
-                    <label><input type="radio" name="q2-3" value="2"> Visualization 2</label>
-                    <label><input type="radio" name="q2-3" value="3"> Visualization 3</label>
-                    <label><input type="radio" name="q2-3" value="4"> Visualization 4</label>
-                    <label><input type="radio" name="q2-3" value="5"> Visualization 5</label>
-                    <label><input type="radio" name="q2-3" value="6"> Visualization 6</label>
-                </div>
-            </div>
-    
-            <!-- Question 4 -->
-            <div class="question">
-                <label for="q2-4">4. Which visualization do you like the most?</label>
-                <div class="likert-scale">
-                    <label><input type="radio" name="q2-4" value="1"> Visualization 1</label>
-                    <label><input type="radio" name="q2-4" value="2"> Visualization 2</label>
-                    <label><input type="radio" name="q2-4" value="3"> Visualization 3</label>
-                    <label><input type="radio" name="q2-4" value="4"> Visualization 4</label>
-                    <label><input type="radio" name="q2-4" value="5"> Visualization 5</label>
-                    <label><input type="radio" name="q2-4" value="6"> Visualization 6</label>
-                </div>
-            </div>
+            <h3>Thanks for finish this scenario, please answer these question below: </h3>
+            <p>Please provide your rankings for each visualization (1-6) across the factors below. Each value in a row must be unique.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Baseline</th>
+                        <th>Bounding box</th>
+                        <th>SpotLight</th>
+                        <th>Point to object</th>
+                        <th>Segmentation</th>
+                        <th>Zoom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-factor="Trust">
+                        <td>Trust</td>
+                        <td><input type="number" name="trust1" min="1" max="6" required></td>
+                        <td><input type="number" name="trust2" min="1" max="6" required></td>
+                        <td><input type="number" name="trust3" min="1" max="6" required></td>
+                        <td><input type="number" name="trust4" min="1" max="6" required></td>
+                        <td><input type="number" name="trust5" min="1" max="6" required></td>
+                        <td><input type="number" name="trust6" min="1" max="6" required></td>
+                    </tr>
+                    <tr data-factor="Situation Awareness">
+                        <td>Situation Awareness (SA)</td>
+                        <td><input type="number" name="sa1" min="1" max="6" required></td>
+                        <td><input type="number" name="sa2" min="1" max="6" required></td>
+                        <td><input type="number" name="sa3" min="1" max="6" required></td>
+                        <td><input type="number" name="sa4" min="1" max="6" required></td>
+                        <td><input type="number" name="sa5" min="1" max="6" required></td>
+                        <td><input type="number" name="sa6" min="1" max="6" required></td>
+                    </tr>
+                    <tr data-factor="Safety">
+                        <td>Safety</td>
+                        <td><input type="number" name="safety1" min="1" max="6" required></td>
+                        <td><input type="number" name="safety2" min="1" max="6" required></td>
+                        <td><input type="number" name="safety3" min="1" max="6" required></td>
+                        <td><input type="number" name="safety4" min="1" max="6" required></td>
+                        <td><input type="number" name="safety5" min="1" max="6" required></td>
+                        <td><input type="number" name="safety6" min="1" max="6" required></td>
+                    </tr>
+                    <tr data-factor="Likability">
+                        <td>Likability</td>
+                        <td><input type="number" name="likability1" min="1" max="6" required></td>
+                        <td><input type="number" name="likability2" min="1" max="6" required></td>
+                        <td><input type="number" name="likability3" min="1" max="6" required></td>
+                        <td><input type="number" name="likability4" min="1" max="6" required></td>
+                        <td><input type="number" name="likability5" min="1" max="6" required></td>
+                        <td><input type="number" name="likability6" min="1" max="6" required></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="error-message" id="error-message"></div>
             <!-- Submit Button -->
             <button type="submit">Submit Scenario Questionnaire</button>
         </form>
@@ -311,6 +286,7 @@
     </div>
 
     <div id="completion-message" class="hidden">
+        <p>Click the button to send the Data.</p>
         <button id="send-to-firebase-button">Send Data to Firebase</button>
     </div>
 
@@ -370,10 +346,11 @@
         async function startExperiment(participantID) {
             // Fetch and parse the CSV file
             const data = await fetchCSV(csvUrl);
-
+            console.log("participant id : ", participantID);
             // Find the participant's scenario order
             const participant = data.find(entry => entry.id === participantID);
             console.log("data : ", data);
+            console.log("participant : ", participant);
 
             const scenarioOrderDiv = document.getElementById("scenario-order");
             const inputSection = document.getElementById("input-section");
@@ -440,10 +417,20 @@
 
                 // Show the video container and hide the Next Scenario button
                 videoContainer.style.display = "block";
-                questionnaireContainer.style.display = "block";
+                questionnaireContainer.style.display = "none";
                 scenarioQuestionnaireContainer.style.display = "none";
                 imagecontainer.style.display = "none";
                 nextScenarioButton.style.display = "none";
+
+                console.log("atribute 1: ",questionnaireContainer.hasAttribute("data-displayed"));
+                videoElement.onended = () => {
+                    // Display the questionnaire only once after the video ends
+                    if (!questionnaireContainer.hasAttribute("data-displayed")) {
+                        questionnaireContainer.style.display = "block"; // Show the questionnaire
+                        questionnaireContainer.setAttribute("data-displayed", "true"); // Mark questionnaire as displayed
+                    }
+                };
+
             };
 
             const moveToNextScenario = () => {
@@ -451,7 +438,11 @@
                 //document.getElementById("video-question2").value = "";
                 //document.getElementById("video-question3").value = "";
                 clearAnswers('questionnaire-container');
-                clearAnswers('scenario-questionnaire-container');
+                questionnaireContainer.removeAttribute("data-displayed");
+                document.querySelectorAll('input[type="number"]').forEach(input => {
+                    input.value = '';
+                });
+                //clearAnswers('scenario-questionnaire-container');
                 //document.getElementById("scenario-question1").value = "";
                 //document.getElementById("scenario-question2").value = "";
                 //document.getElementById("scenario-question3").value = "";
@@ -468,6 +459,8 @@
                     videoContainer.style.display = "none";
                     questionnaireContainer.style.display = "none";
                     nextScenarioButton.style.display = "none";
+                    imagecontainer.style.display = "none";
+                    scenarioQuestionnaireContainer.style.display = "none";
                     messageContainner.classList.remove('hidden');
                     console.log("Final Answers:", answers);
                 }
@@ -539,6 +532,8 @@
                 }
                 else {
                     moveToNextVideo();
+                    questionnaireContainer.removeAttribute("data-displayed");
+                    console.log("atribute 2: ",questionnaireContainer.hasAttribute("data-displayed"));
                     clearAnswers('questionnaire-container');
                 }
                 // Reset the questionnaire
@@ -563,37 +558,51 @@
                 event.preventDefault();  // Prevent the form from reloading the page
                 
                 console.log("hihi ");
-                const q2_1 = getSelectedValue('q2-1');
-                const q2_2 = getSelectedValue('q2-2');
-                const q2_3 = getSelectedValue('q2-3');
-                const q2_4 = getSelectedValue('q2-4');
-                console.log("q2-1 is : ", q2_1);
+                const rows = document.querySelectorAll('tbody tr');
+                let valid = true;
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = '';
 
-                if (!q2_1 || !q2_2 || !q2_3 || !q2_4 ) {
-                    alert("Please answer all required questions.");
-                    return;
+                rows.forEach(row => {
+                    const inputs = Array.from(row.querySelectorAll('input[type="number"]'));
+                    const values = inputs.map(input => input.value);
+
+                    // Check for duplicates
+                    const uniqueValues = new Set(values);
+                    if (uniqueValues.size !== values.length) {
+                        valid = false;
+                        const factor = row.getAttribute('data-factor');
+                        errorMessage.textContent = `Each value in the row for "${factor}" must be unique.`;
+                    }
+                });
+
+                if (valid) {
+                    const formData = new FormData(event.target);
+                    const rankings = {};
+                    formData.forEach((value, key) => {
+                    rankings[key] = value;
+                    });
+
+                    answers.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    scenarioResponses: { rankings }
+                    });
+
+                    scenarioData.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    responses: { rankings }
+                    });
+
+                    nextScenarioButton.style.display = "block";
                 }
-
-                answers.push({
-                    participantID,
-                    scenario: scenarioOrder[currentScenarioIndex],
-                    scenarioResponses: { q2_1, q2_2, q2_3, q2_4}
-                });
-
-                scenarioData.push({
-                    participantID,
-                    scenario: scenarioOrder[currentScenarioIndex],
-                    responses: { q2_1, q2_2, q2_3, q2_4 }
-                });
-
-                nextScenarioButton.style.display = "block";
             });
 
             nextScenarioButton.addEventListener("click", moveToNextScenario);
 
             // Initialize the first video
             updateVideo();
-
             
 
         }
@@ -616,7 +625,8 @@
             }
 
             //const participantID = parseInt(participantIDInput, 10);
-            const participantID = idURL;
+            const participantID = parseInt(idURL, 10);
+            console.log("participant id 2nd :", participantID);
 
             if (!participantID || participantID < 1) {
                 alert("Please enter a valid Participant ID.");
