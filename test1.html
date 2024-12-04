@@ -251,10 +251,10 @@
 
 
         <form id="scenario-questionnaire-container">
-            <h3>Please answer these questions below:</h3>
+            <h3><h3>Thanks for finish this scenario, please answer these question below: </h3></h3>
             <!-- Question 1 -->
             <div class="question">
-                <label for="q2-1">1. Which visualization make you trust the autonomous vehicle most:</label>
+                <label for="q2-1">1. Which visualization makes you trust the autonomous vehicle the most?</label>
                 <div class="likert-scale">
                     <label><input type="radio" name="q2-1" value="1"> Visualization 1</label>
                     <label><input type="radio" name="q2-1" value="2"> Visualization 2</label>
@@ -267,7 +267,7 @@
     
             <!-- Question 2 -->
             <div class="question">
-                <label for="q2-2">2. Which visualization make you feel the most safety </label>
+                <label for="q2-2">2. Which visualization makes you feel the safest? </label>
                 <div class="likert-scale">
                     <label><input type="radio" name="q2-2" value="1"> Visualization 1</label>
                     <label><input type="radio" name="q2-2" value="2"> Visualization 2</label>
@@ -281,7 +281,7 @@
     
             <!-- Question 3 -->
             <div class="question">
-                <label for="q2-3">3. Which visualization increase your situation awereness most</label>
+                <label for="q2-3">3. Which visualization increases your situational awareness the most?</label>
                 <div class="likert-scale">
                     <label><input type="radio" name="q2-3" value="1"> Visualization 1<br> Low</label>
                     <label><input type="radio" name="q2-3" value="2"> Visualization 2</label>
@@ -294,7 +294,7 @@
     
             <!-- Question 4 -->
             <div class="question">
-                <label for="q2-4">4. Which visualization you like most</label>
+                <label for="q2-4">4. Which visualization do you like the most?</label>
                 <div class="likert-scale">
                     <label><input type="radio" name="q2-4" value="1"> Visualization 1</label>
                     <label><input type="radio" name="q2-4" value="2"> Visualization 2</label>
@@ -603,6 +603,19 @@
         // Event listener for the "Start" button
         document.getElementById("start-button").addEventListener("click", () => {
             const participantIDInput = document.getElementById("participant-id-input").value;
+            
+            const url = window.location.href; // Get the current URL                  
+            const params = new URLSearchParams(window.location.search); // Create a URLSearchParams object to parse query parameters
+
+            const idURL = params.get('id'); // Retrieve the 'id' parameter
+            // Save it in a variable
+            if (idURL) {
+                console.log('Retrieved ID:', idURL);
+                // You can now use the ID as needed
+            } else {
+                console.log('ID parameter not found in the URL');
+            }
+            
             const participantID = parseInt(participantIDInput, 10);
 
             if (!participantID || participantID < 1) {

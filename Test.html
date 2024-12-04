@@ -13,7 +13,7 @@
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            max-width: 1500px; 
+            max-width: 900px; 
             margin: 20px auto; 
             background-color: #f4f4f9; 
             color: #333; 
@@ -35,7 +35,11 @@
             margin-bottom: 20px;
         }
         .question { 
-            margin-top: 20px; 
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
         }
         label { 
             font-weight: bold; 
@@ -191,92 +195,199 @@
     
     <form id="questionnaire">
         <!-- Trust -->
-        <p>Please rate the following statements on a scale from 1 to 5 (strongly disagree to strongly agree)</p>
-        <label for="q1">1. I trust the system</label>
-        <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
-        <label for="q2">2. I can rely on the system</label>
-        <input type="number" id="q2" name="q2" min="1" max="5" required><br><br>
+        <h3>Thanks for finish this scenario, please answer these question below: </h3>
+        <div class="question">
+            <label for="q1">1. I trust the system:</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q1" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="q1" value="2"> 2</label>
+                <label><input type="radio" name="q1" value="3"> 3</label>
+                <label><input type="radio" name="q1" value="4"> 4</label>
+                <label><input type="radio" name="q1" value="5"> 5<br> Strongly Agree</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <label for="q2">2. I can rely on the system:</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q2" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="q2" value="2"> 2</label>
+                <label><input type="radio" name="q2" value="3"> 3</label>
+                <label><input type="radio" name="q2" value="4"> 4</label>
+                <label><input type="radio" name="q2" value="5"> 5<br> Strongly Agree</label>
+            </div>
+        </div>
 
         <!-- Understanding -->
-        <label for="q3">3. The system state was always clear to me</label>
-        <input type="number" id="q3" name="q3" min="1" max="5" required><br><br>    
-        <label for="q4">4. I was able to understand why things happened</label>
-        <input type="number" id="q4" name="q4" min="1" max="5" required><br><br>
-        <label for="q5">5. It’s difficult to identify what the system will do next</label>
-        <input type="number" id="q5" name="q5" min="1" max="5" required><br><br> 
 
-        <!-- visibility of the visualization -->
-        <label for="q6">6. The visualization was clearly visible</label>
-        <input type="number" id="q6" name="q6" min="1" max="5" required><br><br> 
+        <div class="question">
+            <label for="q3">3. The system state was always clear to me</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q3" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="q3" value="2"> 2</label>
+                <label><input type="radio" name="q3" value="3"> 3</label>
+                <label><input type="radio" name="q3" value="4"> 4</label>
+                <label><input type="radio" name="q3" value="5"> 5<br> Strongly Agree</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <label for="q4">4. It’s difficult to identify what the system will do next</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q4" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="q4" value="2"> 2</label>
+                <label><input type="radio" name="q4" value="3"> 3</label>
+                <label><input type="radio" name="q4" value="4"> 4</label>
+                <label><input type="radio" name="q4" value="5"> 5<br> Strongly Agree</label>
+            </div>
+        </div>
 
         <!-- Perception -->
-        <p>Please rate the following statements on a scale from 1 to 7 (strongly disagree to strongly agree )</p>
-        <label for="q7">7. How easily can you detect the object</label>
-        <input type="number" id="q7" name="q7" min="1" max="7" required><br><br> 
-        <label for="q8">8. How easil can you keep your sppatio-temporal awareness</label>
-        <input type="number" id="q8" name="q8" min="1" max="7" required><br><br>
+        <div class="question">
+            <label for="q5">5. How easily can you detect the dangerous element?</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q5" value="1"> 1<br> Very Easy</label>
+                <label><input type="radio" name="q5" value="2"> 2</label>
+                <label><input type="radio" name="q5" value="3"> 3</label>
+                <label><input type="radio" name="q5" value="4"> 4</label>
+                <label><input type="radio" name="q5" value="5"> 5</label>
+                <label><input type="radio" name="q5" value="6"> 6</label>
+                <label><input type="radio" name="q5" value="7"> 7</label>
+                <label><input type="radio" name="q5" value="8"> 8</label>
+                <label><input type="radio" name="q5" value="9"> 9<br> Very Difficult</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <label for="q6">6. How easily can you keep your sppatio-temporal awareness?</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q6" value="1"> 1<br> Very Easy</label>
+                <label><input type="radio" name="q6" value="2"> 2</label>
+                <label><input type="radio" name="q6" value="3"> 3</label>
+                <label><input type="radio" name="q6" value="4"> 4</label>
+                <label><input type="radio" name="q6" value="5"> 5</label>
+                <label><input type="radio" name="q6" value="6"> 6</label>
+                <label><input type="radio" name="q6" value="7"> 7</label>
+                <label><input type="radio" name="q6" value="8"> 8</label>
+                <label><input type="radio" name="q6" value="9"> 9<br> Very Difficult</label>
+            </div>
+        </div>
 
         <!-- Attention -->
-        <label for="q9">9. How would you rate your level of focus during the task while using this visualization</label>
-        <input type="number" id="q9" name="q9" min="1" max="7" required><br><br>
-        <label for="q10">10. How much is your attention divided in the situation? Are you concentrating on any aspect of the situation (High) (ex: critical object and situation) or focused on only one (low) (only critical object)</label>
-        <input type="number" id="q10" name="q10" min="1" max="7" required><br><br>
+        <div class="question">
+            <label for="q7">7. How would you rate your level of focus during the task while using this visualization</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q7" value="1"> 1<br> Low</label>
+                <label><input type="radio" name="q7" value="2"> 2</label>
+                <label><input type="radio" name="q7" value="3"> 3</label>
+                <label><input type="radio" name="q7" value="4"> 4</label>
+                <label><input type="radio" name="q7" value="5"> 5</label>
+                <label><input type="radio" name="q7" value="6"> 6</label>
+                <label><input type="radio" name="q7" value="7"> 7<br> High</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <label for="q8">8. How much is your attention divided in the situation? (are you concentrating on any aspect of the situation (High) (ex: dangerous element and environment around) or focused on only one (low) )</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q8" value="1"> 1<br> Low</label>
+                <label><input type="radio" name="q8" value="2"> 2</label>
+                <label><input type="radio" name="q8" value="3"> 3</label>
+                <label><input type="radio" name="q8" value="4"> 4</label>
+                <label><input type="radio" name="q8" value="5"> 5</label>
+                <label><input type="radio" name="q8" value="6"> 6</label>
+                <label><input type="radio" name="q8" value="7"> 7<br> High</label>
+            </div>
+        </div>
 
         <!-- The complexity of the situation -->
-        <label for="q11">11. How complicated is thesituation? Is it complex with many interrelated components (High) or it issimple and straightforward?</label>
-        <input type="number" id="q11" name="q11" min="1" max="7" required><br><br>
+        <div class="question">
+            <label for="q9">9. How complicated is these ituation? Is it complex with many interrelated components (High) or it is simple and straightforward (Low)?</label>
+            <div class="likert-options">
+                <label><input type="radio" name="q9" value="1"> 1<br> Low</label>
+                <label><input type="radio" name="q9" value="2"> 2</label>
+                <label><input type="radio" name="q9" value="3"> 3</label>
+                <label><input type="radio" name="q9" value="4"> 4</label>
+                <label><input type="radio" name="q9" value="5"> 5</label>
+                <label><input type="radio" name="q9" value="6"> 6</label>
+                <label><input type="radio" name="q9" value="7"> 7<br> High</label>
+            </div>
+        </div>
 
         <!-- Usability -->
-        <label for="q12">12. I think that I would like to use these visualizations frequently</label>
-        <input type="number" id="q12" name="q12" min="1" max="7" required><br><br>
-        <label for="q13">13.  I found the visualizations unnecessarily complex</label>
-        <input type="number" id="q13" name="q13" min="1" max="7" required><br><br>
+
+        <div class="question">
+            <label for="q10">10. I think that I would like to use these visualizations frequently</label>
+            <div class="likert-options">
+                <label><input type="radio" name="10" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="10" value="2"> 2</label>
+                <label><input type="radio" name="10" value="3"> 3</label>
+                <label><input type="radio" name="10" value="4"> 4</label>
+                <label><input type="radio" name="10" value="5"> 5</label>
+                <label><input type="radio" name="10" value="6"> 6</label>
+                <label><input type="radio" name="10" value="7"> 7<br> Strongly Agree</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <label for="q11">11. I found the visualizations unnecessarily complex</label>
+            <div class="likert-options">
+                <label><input type="radio" name="11" value="1"> 1<br> Strongly Disagree</label>
+                <label><input type="radio" name="11" value="2"> 2</label>
+                <label><input type="radio" name="11" value="3"> 3</label>
+                <label><input type="radio" name="11" value="4"> 4</label>
+                <label><input type="radio" name="11" value="5"> 5</label>
+                <label><input type="radio" name="11" value="6"> 6</label>
+                <label><input type="radio" name="11" value="7"> 7<br> Strongly Agree</label>
+            </div>
+        </div>
+
 
         <!-- Perceived safety -->
         <div class="question">
-            <label for="q14">14. Please rate your perceived safety:</label>
+            <label for="q12">12. Please rate your perceived safety:</label>
             <div class="likert-options">
-                <label><input type="radio" name="q14" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
-                <label><input type="radio" name="q14" value="-2"> -2</label>
-                <label><input type="radio" name="q14" value="-1"> -1</label>
-                <label><input type="radio" name="q14" value="0"> 0</label>
-                <label><input type="radio" name="q14" value="1"> 1</label>
-                <label><input type="radio" name="q14" value="2"> 2</label>
-                <label><input type="radio" name="q14" value="3"> 3<br>relaxed / calm / safe / confident</label>
+                <label><input type="radio" name="q12" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
+                <label><input type="radio" name="q12" value="-2"> -2</label>
+                <label><input type="radio" name="q12" value="-1"> -1</label>
+                <label><input type="radio" name="q12" value="0"> 0</label>
+                <label><input type="radio" name="q12" value="1"> 1</label>
+                <label><input type="radio" name="q12" value="2"> 2</label>
+                <label><input type="radio" name="q12" value="3"> 3<br>relaxed / calm / safe / confident</label>
             </div>
         </div>
 
         <!-- Cognitive load -->
         <p>Please rate the following statements on a scale from 1 to 9 </p>
         <div class="question">
-            <label for="q15">15. Please rate your mental effort to completed this task.</label>
+            <label for="q13">13. Please rate your mental effort to completed this task.</label>
             <div class="likert-options">
                 <label class="option">
-                    <input type="radio" name="q15" value="1" required> 1 - very, very low
+                    <input type="radio" name="q13" value="1" required> 1 - very, very low
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="2"> 2 - very low
+                    <input type="radio" name="q13" value="2"> 2 - very low
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="3"> 3 - low
+                    <input type="radio" name="q13" value="3"> 3 - low
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="4"> 4 - rather low
+                    <input type="radio" name="q13" value="4"> 4 - rather low
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="5"> 5 - neither low nor high
+                    <input type="radio" name="q13" value="5"> 5 - neither low nor high
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="6"> 6 - rather high
+                    <input type="radio" name="q13" value="6"> 6 - rather high
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="7"> 7 - high
+                    <input type="radio" name="q13" value="7"> 7 - high
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="8"> 8 - very high
+                    <input type="radio" name="q13" value="8"> 8 - very high
                 </label>
                 <label class="option">
-                    <input type="radio" name="q15" value="9"> 9 - very, very high
+                    <input type="radio" name="q13" value="9"> 9 - very, very high
                 </label>
             </div>
         </div>
