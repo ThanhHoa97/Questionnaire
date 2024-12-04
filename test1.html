@@ -74,8 +74,7 @@
 <body>
     <h1>Welcome to the Experiment</h1>
     <div id="input-section">
-        <p>Please enter your Participant ID to begin:</p>
-        <input type="number" id="participant-id-input" placeholder="Enter Participant ID">
+        <p>Click "Start" to start expeiment:</p>
         <button id="start-button">Start</button>
     </div>
 
@@ -602,7 +601,7 @@
         
         // Event listener for the "Start" button
         document.getElementById("start-button").addEventListener("click", () => {
-            const participantIDInput = document.getElementById("participant-id-input").value;
+            //const participantIDInput = document.getElementById("participant-id-input").value;
             
             const url = window.location.href; // Get the current URL                  
             const params = new URLSearchParams(window.location.search); // Create a URLSearchParams object to parse query parameters
@@ -615,8 +614,9 @@
             } else {
                 console.log('ID parameter not found in the URL');
             }
-            
-            const participantID = parseInt(participantIDInput, 10);
+
+            //const participantID = parseInt(participantIDInput, 10);
+            const participantID = idURL;
 
             if (!participantID || participantID < 1) {
                 alert("Please enter a valid Participant ID.");
