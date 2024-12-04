@@ -16,6 +16,9 @@
         #video-container, #experiment-section, #questionnaire-container, #scenario-questionnaire-container {
             display: none;
         }
+        #introduction-containner {
+            display: none;
+        }
         #image-container-1,  #image-container-2,  #image-container-3,  #image-container-4,  #image-container-5 {
             display: none;
         }
@@ -110,6 +113,9 @@
 
     <div id="experiment-section">
         <div id="scenario-order"></div>
+        <div id="introduction-containner">
+            <p>Please watch the video and then answer the question</p>
+        </div>
         <div id="video-container">
             <video id="current-video" controls>
                 Your browser does not support the video tag.
@@ -118,7 +124,7 @@
 
 
         <form id="questionnaire-container">
-            <h3>Please answer these questions</h3>
+            <h3>Please answer these questions:</h3>
             <!-- Question 1 -->
             <div class="question">
                 <label for="q1">1. I trust the system:</label>
@@ -201,7 +207,7 @@
         <!-- image for scenario 2 -->
         <div class="image-container" id="image-container-2">
             <!-- Image 1 -->
-            <img src="images/scenario2/image2-2.png" alt="Image 2">
+            <img src="images/scenario2/image2.png" alt="Image 2">
         </div>
 
         <!-- image for scenario 3 -->
@@ -409,8 +415,9 @@
 
                 videoElement.src = currentVideos[currentVideoIndex];
 
+                document.getElementById("introduction-containner").style.display = "block";
+
                 scenarioOrderDiv.innerHTML = `
-                    <h2>Participant ID: ${participantID}</h2>
                     <h3>Current Scenario: ${currentScenario}</h3>
                     <p>Video ${currentVideoIndex + 1} of ${currentVideos.length}</p>
                 `;
@@ -457,6 +464,7 @@
                 } else {
                     scenarioOrderDiv.innerHTML = `<h2>Thank You! You have completed the experiment.</h2>`;
                     videoContainer.style.display = "none";
+                    document.getElementById("introduction-containner").style.display = "none";
                     questionnaireContainer.style.display = "none";
                     nextScenarioButton.style.display = "none";
                     imagecontainer.style.display = "none";
@@ -515,6 +523,8 @@
                 {
                     questionnaireContainer.style.display = "none";
                     videoContainer.style.display = "none";
+                    document.getElementById("introduction-containner").style.display = "none";
+
                     console.log("current scenario indexe 1 ", currentScenarioIndex);
 
                     //get scenario indiex for image
@@ -556,7 +566,7 @@
                 //const scenarioQuestion2 = document.getElementById("scenario-question2").value;
                 //const scenarioQuestion3 = document.getElementById("scenario-question3").value;
                 event.preventDefault();  // Prevent the form from reloading the page
-                
+                document.getElementById("introduction-containner").style.display = "none";
                 console.log("hihi ");
                 const rows = document.querySelectorAll('tbody tr');
                 let valid = true;
