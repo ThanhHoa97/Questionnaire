@@ -44,4 +44,10 @@ function sendDataScenarioToFirebase() {
 
 // Add a button in your HTML to trigger sending data to Firebase
 document.getElementById("send-to-firebase-button").addEventListener("click", sendDataToFirebase);
+document.getElementById("send-to-firebase-button").addEventListener('click', () => {
+    // Simulate sending data to Firebase
+        // Show the thank-you message after "sending" the data
+        const thankYouMessage = document.getElementById('thank-you-message');
+        thankYouMessage.style.display = 'block';
+});
 document.getElementById("next-scenario-button").addEventListener("click", sendDataScenarioToFirebase);
