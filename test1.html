@@ -94,6 +94,15 @@
             margin-top: 10px;
             font-size: 14px;
         }
+        .button-container {
+        display: flex;
+        gap: 10px; /* Space between buttons */
+        margin-top: 10px;
+        }
+
+        .button-container button {
+        display: inline-block;
+        }
 
     </style>
 
@@ -230,7 +239,7 @@
 
 
         <form id="scenario-questionnaire-container">
-            <h3>Thanks for finish this scenario, please answer these question below: </h3>
+            <h3>Thanks for finish this scenario. </h3>
             <p>Please provide your rankings for each visualization (1 (low) -6 (high)) across the factors below. Each value in a row must be unique.</p>
             <table>
                 <thead>
@@ -284,17 +293,22 @@
                 </tbody>
             </table>
             <div class="error-message" id="error-message"></div>
+
             <!-- Submit Button -->
-            <button type="submit">Submit Scenario Questionnaire</button>
-            <p>Please click the button Next Scenario.</p>
+            <div class="button-container">
+                <!-- Submit Button -->
+                <button type="submit">Submit Scenario Questionnaire</button>
+                <!-- Next Scenario Button -->
+                <button id="next-scenario-button" style="display: none;">Next Scenario</button>
+            </div>
         </form>
-        <button id="next-scenario-button" style="display: none;">Next Scenario</button>
 
     </div>
 
     <div id="completion-message" class="hidden">
         <p>Click the button to send the Data.</p>
         <button id="send-to-firebase-button">Send Data to Firebase</button>
+        <p id="thank-you-message" style="display: none; color: green; font-weight: bold;">Thank You! You have completed the experiment</p>
     </div>
 
     <script>
@@ -463,7 +477,7 @@
                     randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
                     updateVideo();
                 } else {
-                    scenarioOrderDiv.innerHTML = `<h2>Thank You! You have completed the experiment.</h2>`;
+                    //scenarioOrderDiv.innerHTML = `<h2>Thank You! You have completed the experiment.</h2>`;
                     videoContainer.style.display = "none";
                     document.getElementById("introduction-containner").style.display = "none";
                     questionnaireContainer.style.display = "none";

@@ -3,265 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Questionnaire</title>
+    <title>Participant Experiment</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: Arial, sans-serif; 
+            max-width: 1000px; 
+            margin: 20px auto; 
+            background-color: #f4f4f9; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        #video-container, #experiment-section, #questionnaire-container, #scenario-questionnaire-container {
+            display: none;
+        }
+        #introduction-containner {
+            display: none;
+        }
+        #image-container-1,  #image-container-2,  #image-container-3,  #image-container-4,  #image-container-5 {
+            display: none;
+        }
+        /* Style for each image */
+        .image-container img {
+            width: 1000px;
+            object-fit: cover;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        video {
+            display: block;
+            margin-top: 20px;
+            width: 900px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .hidden {
             display: none;
         }
-        .video, .questionnaire, .navigation {
-            margin-top: 20px;
+        /* Initially hide the form */
+        #questionnaire-form {
+            display: none;
+            margin-top: 30px;
+            max-width: 700px;
         }
-        button {
-            padding: 10px 20px;
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        .likert-scale input[type="radio"] {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
             font-size: 16px;
+            text-align: center;
         }
-        video {
-            width: 1000px;
-            margin-bottom: 30px;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
         }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="number"] {
+            width: 50px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .button-container {
+        display: flex;
+        gap: 10px; /* Space between buttons */
+        margin-top: 10px;
+        }
+
+        .button-container button {
+        display: inline-block;
+        }
+
     </style>
+
+
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
 </head>
 <body>
-    <h1>Video Questionnaire</h1>
-    <button id="begin-button">Begin</button>
-    <div id="scenario-container" class="hidden"></div>
-
-    <div id="next-scenario-container" class="hidden">
-        <button id="next-scenario-button">Next Scenario</button>
+    <h1>Welcome to the Experiment</h1>
+    <div id="input-section">
+        <p>Click "Start" to start expeiment:</p>
+        <button id="start-button">Start</button>
     </div>
 
+    <div id="experiment-section">
+        <div id="scenario-order"></div>
+        <div id="introduction-containner">
+            <p>Please watch the video and then answer the question</p>
+        </div>
+        <div id="video-container">
+            <video id="current-video" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+
+        <form id="questionnaire-container">
+            <h3>Please answer these questions:</h3>
+            <!-- Question 1 -->
+            <div class="question">
+                <label for="q1">1. I trust the system:</label>
+                <div class="likert-scale">
+                    <label><input type="radio" name="q1" value="1"> 1<br> Strongly Disagree</label>
+                    <label><input type="radio" name="q1" value="2"> 2</label>
+                    <label><input type="radio" name="q1" value="3"> 3</label>
+                    <label><input type="radio" name="q1" value="4"> 4</label>
+                    <label><input type="radio" name="q1" value="5"> 5</label>
+                    <label><input type="radio" name="q1" value="6"> 6</label>
+                    <label><input type="radio" name="q1" value="7"> 7<br> Strongly Agree</label>
+                </div>
+            </div>
     
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Questionnaire</button>
+        </form>
+
+        <!-- image for scenario 1 -->
+        <div class="image-container" id="image-container-1">
+            <!-- Image 1 -->
+            <img src="images/scenario1/image1.png" alt="Image 1">
+        </div>
+
+        <!-- image for scenario 2 -->
+        <div class="image-container" id="image-container-2">
+            <!-- Image 1 -->
+            <img src="images/scenario2/image2.png" alt="Image 2">
+        </div>
+
+        <!-- image for scenario 3 -->
+        <div class="image-container" id="image-container-3">
+            <!-- Image 1 -->
+            <img src="images/scenario3/image3.png" alt="Image 3">
+        </div>
+
+         <!-- image for scenario 4 -->
+         <div class="image-container" id="image-container-4">
+            <!-- Image 1 -->
+            <img src="images/scenario4/image4.png" alt="Image 4">
+        </div>
+
+        <!-- image for scenario 5 -->
+        <div class="image-container" id="image-container-5">
+            <!-- Image 1 -->
+            <img src="images/scenario5/image5.png" alt="Image 5">
+        </div>       
+
+
+        <form id="scenario-questionnaire-container">
+            <h3>Thanks for finish this scenario </h3>
+            <p>Please provide your rankings for each visualization (1 (low) -6 (high)) across the factors below. Each value in a row must be unique.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Baseline</th>
+                        <th>Bounding box</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-factor="Trust">
+                        <td>Trust</td>
+                        <td><input type="number" name="trust1" min="1" max="6" required></td>
+                        <td><input type="number" name="trust2" min="1" max="6" required></td>
+                    <tr data-factor="Situation Awareness">
+                        <td>Situation Awareness (SA)</td>
+                        <td><input type="number" name="sa1" min="1" max="6" required></td>
+                        <td><input type="number" name="sa2" min="1" max="6" required></td>
+                </tbody>
+            </table>
+            <div class="error-message" id="error-message"></div>
+            <!-- Submit Button -->
+            <div class="button-container">
+                <!-- Submit Button -->
+                <button type="submit">Submit Scenario Questionnaire</button>
+                <!-- Next Scenario Button -->
+                <button id="next-scenario-button" style="display: none;">Next Scenario</button>
+            </div>
+        </form>
+
+    </div>
+
     <div id="completion-message" class="hidden">
-        <h2>Thank you for completing the questionnaire!</h2>
-        <button onclick="sendDataToServer()">Send Data to Server</button>
+        <p>Click the button to send the Data.</p>
         <button id="send-to-firebase-button">Send Data to Firebase</button>
+        <p id="thank-you-message" style="display: none; color: green; font-weight: bold;">Thank You! You have completed the experiment</p>
     </div>
 
     <script>
+        // CSV file URL (replace with your GitHub file URL)
+        const csvUrl = "https://raw.githubusercontent.com/ThanhHoa97/Questionnaire/main/latinsquare.csv";
+        const messageContainner = document.getElementById('completion-message');
+        const sendToFirebase = document.getElementById('send-to-firebase-button');
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB3YF0LJmMG_xO6JzO4GC8gX3rzLQHeM8M",
-            authDomain: "questionnaire-956d0.firebaseapp.com",
-            databaseURL: "https://questionnaire-956d0-default-rtdb.firebaseio.com",
-            projectId: "questionnaire-956d0",
-            storageBucket: "questionnaire-956d0.firebasestorage.app",
-            messagingSenderId: "984927383017",
-            appId: "1:984927383017:web:64593b1c1f379c6dfc2f78",
-            measurementId: "G-3P3EZQGE89"
+        // Videos for each scenario
+        const videos = {
+            "Scenario 1": ["videos/scenario1/video1-1.mp4", "videos/scenario1/video1-2.mp4", "videos/scenario1/video1-3.mp4", "videos/scenario1/video1-4.mp4", "videos/scenario1/video1-5.mp4", "videos/scenario1/video1-6.mp4"],
+            "Scenario 2": ["videos/scenario2/video2-1.mp4", "videos/scenario2/video2-2.mp4", "videos/scenario2/video2-3.mp4", "videos/scenario2/video2-4.mp4", "videos/scenario2/video2-5.mp4", "videos/scenario2/video2-6.mp4"],
+            "Scenario 3": ["videos/scenario3/video3-1.mp4", "videos/scenario3/video3-2.mp4", "videos/scenario3/video3-3.mp4", "videos/scenario3/video3-4.mp4", "videos/scenario3/video3-5.mp4", "videos/scenario3/video3-6.mp4"],
+            "Scenario 4": ["videos/scenario4/video4-1.mp4", "videos/scenario4/video4-2.mp4", "videos/scenario4/video4-3.mp4", "videos/scenario4/video4-4.mp4", "videos/scenario4/video4-5.mp4", "videos/scenario4/video4-6.mp4"],
+            "Scenario 5": ["videos/scenario5/video5-1.mp4", "videos/scenario5/video5-2.mp4", "videos/scenario5/video5-3.mp4", "videos/scenario5/video5-4.mp4", "videos/scenario5/video5-5.mp4", "videos/scenario5/video5-6.mp4"]
         };
 
-        firebase.initializeApp(firebaseConfig);
-
-        // Data structure for scenarios and videos
-        const scenarios = [
-            { id: 1, videos: ['videos/scenario1/Baseline.mp4', 'videos/scenario2/Point.mp4', 'videos/scenario1/Light.mp4'] },
-            { id: 2, videos: ['videos/scenario1/Baseline.mp4', 'videos/scenario1/Baseline.mp4', 'videos/scenario1/Baseline.mp4'] }
-        ];
-
-        const questionnaireTemplate = `
-            <!-- Trust -->
-            <p>Please rate the following statements on a scale from 1 to 5 (strongly disagree to strongly agree)</p>
-            <label for="q1">1. I trust the system</label>
-            <input type="number" id="q1" name="q1" min="1" max="5" required><br><br>
-            <label for="q2">2. I can rely on the system</label>
-            <input type="number" id="q2" name="q2" min="1" max="5" required><br><br>
-        
-            <!-- Perceived safety -->
-            <div class="question">
-                <label for="q14">14. Please rate your perceived safety:</label>
-                <div class="likert-options">
-                    <label><input type="radio" name="q14" value="-3"> -3<br>anxious / agitated / unsafe / timid</label>
-                    <label><input type="radio" name="q14" value="-2"> -2</label>
-                    <label><input type="radio" name="q14" value="-1"> -1</label>
-                    <label><input type="radio" name="q14" value="0"> 0</label>
-                    <label><input type="radio" name="q14" value="1"> 1</label>
-                    <label><input type="radio" name="q14" value="2"> 2</label>
-                    <label><input type="radio" name="q14" value="3"> 3<br>relaxed / calm / safe / confident</label>
-                </div>
-            </div>
-
-            <br><br>
-            <button type="submit">Submit Questionnaire</button>
-        `;
-
-        let currentScenarioIndex = 0;
-        let currentVideoIndex = 0;
-        let currentQuestionnaireIndex = 0;
-
-        const scenarioContainer = document.getElementById('scenario-container');
-        const nextScenarioContainer = document.getElementById('next-scenario-container');
-        const completionMessage = document.getElementById('completion-message');
-        const beginButton = document.getElementById('begin-button');
-        const nextScenarioButton = document.getElementById('next-scenario-button');
-
-        let collectedData = [];
-        let participantData = [];
-         //initial the order of the videos according to the scenario
-        let videos = scenarios[currentScenarioIndex].videos;
-        console.log("current scenario index 1 : ", currentScenarioIndex);
-        let videoOrder = shuffleVideos(videos);
-        console.log("video order 1: ", videoOrder);
-        console.log("video lenght 1: ", videos.length);
-
-
-        // Shuffle videos using Latin square randomization
-        function shuffleVideos(videos) {
-            return videos.sort(() => Math.random() - 0.5);
-        }
-        // Function to show the next video
-        function showNextVideo() {
-            
-            console.log("current video index : ", currentVideoIndex);
-            if (currentVideoIndex < videos.length) {
-                const videoElement = document.createElement('video');
-                //videoElement.src = videos[currentVideoIndex];
-                videoElement.src = videoOrder[currentVideoIndex];
-                videoElement.controls = true;
-                videoElement.classList.add('video');
-
-                videoElement.addEventListener('ended', () => {
-                    //currentVideoIndex++;
-                    console.log("current video index 2: ", currentVideoIndex);
-                    showNextVideo();
-                });
-
-                scenarioContainer.appendChild(videoElement);
-                currentVideoIndex++;
-                console.log("current video index 3: ", currentVideoIndex);
-            } else {
-                // Show first questionnaire after videos are watched
-                showQuestionnaire();
+        // Shuffle an array randomly
+        function shuffleArray(array) {
+            const shuffled = array.slice(); // Copy the array
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
+            return shuffled;
         }
 
-        // Function to show the next questionnaire
-        function showQuestionnaire() {
-            if (currentQuestionnaireIndex < 3) {
-                const questionnaire = document.createElement('div');
-                questionnaire.classList.add('questionnaire');
+        // Fetch and parse the CSV file
+        async function fetchCSV(url) {
+            const response = await fetch(url);
+            const data = await response.text();
+            const rows = data.trim().split("\n");
+            data1 = [];
+            rows.forEach(row => {
+                // Match the id and the "order" field that might be quoted and contain commas
+                const regex = /^(\d+),"(.*)"$/;
+                const matches = row.match(regex);
 
-                const form = document.createElement('form');
-                form.innerHTML = `
-                    <h3>Questionnaire ${currentQuestionnaireIndex + 1}</h3>
-                    <form id="questionnaire-form">
-                        ${questionnaireTemplate}
-                    </form>
+                if (matches) {
+                    const id = parseInt(matches[1], 10); // Parse the ID as an integer
+                    const order = matches[2].split(",").map(item => item.trim()); // Split the "order" string into an array
+
+                    const parsedData = { id, order };
+                    data1.push(parsedData);
+                }
+            });
+            return data1;
+        }
+
+        // Store answers
+        const answers = [];
+        let scenarioData = [];
+
+
+        // Start the experiment for a given participant ID
+        async function startExperiment(participantID) {
+            // Fetch and parse the CSV file
+            const data = await fetchCSV(csvUrl);
+            console.log("participant id : ", participantID);
+            // Find the participant's scenario order
+            const participant = data.find(entry => entry.id === participantID);
+            console.log("data : ", data);
+            console.log("participant : ", participant);
+
+            const scenarioOrderDiv = document.getElementById("scenario-order");
+            const inputSection = document.getElementById("input-section");
+            const experimentSection = document.getElementById("experiment-section");
+            const videoContainer = document.getElementById("video-container");
+            const questionnaireContainer = document.getElementById("questionnaire-container");
+            const scenarioQuestionnaireContainer = document.getElementById("scenario-questionnaire-container");
+            //const imagecontainer1 = document.getElementById("image-container-1");
+            //const imagecontainer2 = document.getElementById("image-container-2");
+            //const imagecontainer3 = document.getElementById("image-container-3");
+            //const imagecontainer4 = document.getElementById("image-container-4");
+            //const imagecontainer5 = document.getElementById("image-container-5");
+            const nextScenarioButton = document.getElementById("next-scenario-button");
+
+            if (!participant) {
+                alert("Invalid Participant ID. Please try again.");
+                return;
+            }
+
+            // Hide the input section and show the experiment section
+            inputSection.style.display = "none";
+            experimentSection.style.display = "block";
+            //videoContainer.style.display = "block";
+
+            // Participant's scenario order
+            const scenarioOrder = participant.order;
+            console.log("scenario order 0 : ", scenarioOrder);
+            console.log("participant order 0 : ", participant.order);
+
+            // Variables to track progress
+            let currentScenarioIndex = 0;
+            let currentVideoIndex = 0;
+
+            let randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
+
+            const videoElement = document.getElementById("current-video");
+            //const submitVideoQuestionnaireButton = document.getElementById("submit-video-questionnaire-button");
+            //const submitScenarioQuestionnaireButton = document.getElementById("submit-scenario-questionnaire-button");
+            //const submitQuestionnaireButton = document.getElementById("submit-questionnaire-button");
+            //const nextVideoButton = document.getElementById("next-video-button");
+
+            //get scenario indiex for image
+            let strScenario = scenarioOrder[currentScenarioIndex];
+            let lastChar = strScenario.charAt(strScenario.length - 1);
+            console.log("lastChar ", lastChar);
+            let imagecontainerId = 'image-container-'+ lastChar;
+            let imagecontainer = document.getElementById(imagecontainerId);
+            console.log("imagecontainerId : ",imagecontainerId);
+            console.log("imagecontainer : ",imagecontainer);
+
+            // Function to update the video
+            const updateVideo = () => {
+                const currentScenario = scenarioOrder[currentScenarioIndex];
+                //const currentVideos = videos[currentScenario];
+                const currentVideos = randomizedVideos;
+
+                videoElement.src = currentVideos[currentVideoIndex];
+
+                document.getElementById("introduction-containner").style.display = "block";
+
+                scenarioOrderDiv.innerHTML = `
+                    <h3>Current Scenario: ${currentScenario}</h3>
+                    <p>Video ${currentVideoIndex + 1} of ${currentVideos.length}</p>
                 `;
 
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
+                // Show the video container and hide the Next Scenario button
+                videoContainer.style.display = "block";
+                questionnaireContainer.style.display = "none";
+                scenarioQuestionnaireContainer.style.display = "none";
+                imagecontainer.style.display = "none";
+                nextScenarioButton.style.display = "none";
 
-                    const formData = new FormData(form);
-                    const answers = {};
-                    for (let [key, value] of formData.entries()) {
-                        answers[key] = value;
+                console.log("atribute 1: ",questionnaireContainer.hasAttribute("data-displayed"));
+                videoElement.onended = () => {
+                    // Display the questionnaire only once after the video ends
+                    if (!questionnaireContainer.hasAttribute("data-displayed")) {
+                        questionnaireContainer.style.display = "block"; // Show the questionnaire
+                        questionnaireContainer.setAttribute("data-displayed", "true"); // Mark questionnaire as displayed
                     }
+                };
 
-                    participantData.push({
-                        scenario: scenarios[currentScenarioIndex].id,
-                        questionnaire: currentQuestionnaireIndex + 1,
-                        responses: answers
-                    });
-                    console.log("participant data : ",participantData);
-                    //currentQuestionnaireIndex++;
-                    showQuestionnaire();
+            };
+
+            const moveToNextScenario = () => {
+                //document.getElementById("video-question1").value = "";
+                //document.getElementById("video-question2").value = "";
+                //document.getElementById("video-question3").value = "";
+                clearAnswers('questionnaire-container');
+                questionnaireContainer.removeAttribute("data-displayed");
+                document.querySelectorAll('input[type="number"]').forEach(input => {
+                    input.value = '';
+                });
+                //clearAnswers('scenario-questionnaire-container');
+                //document.getElementById("scenario-question1").value = "";
+                //document.getElementById("scenario-question2").value = "";
+                //document.getElementById("scenario-question3").value = "";
+                scenarioData = [];
+                console.log("scenario data : ", scenarioData);
+                currentScenarioIndex++;
+                currentVideoIndex = 0;
+
+                if (currentScenarioIndex < scenarioOrder.length) {
+                    randomizedVideos = shuffleArray(videos[scenarioOrder[currentScenarioIndex]]);
+                    updateVideo();
+                } else {
+                    //scenarioOrderDiv.innerHTML = `<h2>Thank You! You have completed the experiment.</h2>`;
+                    videoContainer.style.display = "none";
+                    document.getElementById("introduction-containner").style.display = "none";
+                    questionnaireContainer.style.display = "none";
+                    nextScenarioButton.style.display = "none";
+                    imagecontainer.style.display = "none";
+                    scenarioQuestionnaireContainer.style.display = "none";
+                    messageContainner.classList.remove('hidden');
+                    console.log("Final Answers:", answers);
+                }
+            };
+
+
+            const moveToNextVideo = () => {
+                const currentVideos = randomizedVideos;
+
+                if (currentVideoIndex < currentVideos.length - 1) {
+                    currentVideoIndex++;
+                    updateVideo();
+                } else {
+                    questionnaireContainer.style.display = "none";
+                    //scenarioQuestionnaireContainer.style.display = "block";
+                    //nextScenarioButton.style.display = "block";
+                }
+            };
+
+
+            // Event listener for the "Submit Questionnaire" button
+            document.getElementById('questionnaire-container').addEventListener('submit', function(event) {
+                event.preventDefault();  // Prevent the form from reloading the page
+
+                // Get the values of each selected radio button using getElementById
+                const q1 = getSelectedValue('q1');
+
+
+                if (!q1 ) {
+                    alert("Please answer all required questions.");
+                    return;
+                }
+                console.log("current video indexe ", currentVideoIndex);
+                console.log("current scenario indexe 1 ", scenarioOrder[currentScenarioIndex]);
+                // Save the responses
+                answers.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    video: randomizedVideos[currentVideoIndex],
+                    responses: { q1}
+                });
+                scenarioData.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    video: randomizedVideos[currentVideoIndex],
+                    responses: { q1}
+                });
+                if (currentVideoIndex >= 5)
+                {
+                    questionnaireContainer.style.display = "none";
+                    videoContainer.style.display = "none";
+                    document.getElementById("introduction-containner").style.display = "none";
+
+                    console.log("current scenario indexe 1 ", currentScenarioIndex);
+
+                    //get scenario indiex for image
+                    strScenario = scenarioOrder[currentScenarioIndex];
+                    lastChar = strScenario.charAt(strScenario.length - 1);
+                    console.log("lastChar ", lastChar);
+                    imagecontainerId = 'image-container-'+ lastChar;
+                    imagecontainer = document.getElementById(imagecontainerId);
+                    console.log("imagecontainerId : ",imagecontainerId);
+                    console.log("imagecontainer : ",imagecontainer);
+
+                    imagecontainer.style.display = "block";
+                    scenarioQuestionnaireContainer.style.display = "block";
+                    //nextScenarioButton.style.display = "block";
+                }
+                else {
+                    moveToNextVideo();
+                    questionnaireContainer.removeAttribute("data-displayed");
+                    console.log("atribute 2: ",questionnaireContainer.hasAttribute("data-displayed"));
+                    clearAnswers('questionnaire-container');
+                }
+                // Reset the questionnaire
+                
+            });
+
+            function getSelectedValue(questionId) {
+                const selectedRadio = document.querySelector(`input[name="${questionId}"]:checked`);
+                return selectedRadio ? selectedRadio.value : null;
+            }
+
+            // Helper function to clear all radio button selections in a given section
+            function clearAnswers(sectionId) {
+            const radios = document.querySelectorAll(`#${sectionId} input[type="radio"]`);
+            radios.forEach(radio => radio.checked = false);
+            }
+
+            document.getElementById('scenario-questionnaire-container').addEventListener('submit', function(event) {
+                //const scenarioQuestion1 = document.getElementById("scenario-question1").value;
+                //const scenarioQuestion2 = document.getElementById("scenario-question2").value;
+                //const scenarioQuestion3 = document.getElementById("scenario-question3").value;
+                event.preventDefault();  // Prevent the form from reloading the page
+                document.getElementById("introduction-containner").style.display = "none";
+                console.log("hihi ");
+                const rows = document.querySelectorAll('tbody tr');
+                let valid = true;
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = '';
+
+                rows.forEach(row => {
+                    const inputs = Array.from(row.querySelectorAll('input[type="number"]'));
+                    const values = inputs.map(input => input.value);
+
+                    // Check for duplicates
+                    const uniqueValues = new Set(values);
+                    if (uniqueValues.size !== values.length) {
+                        valid = false;
+                        const factor = row.getAttribute('data-factor');
+                        errorMessage.textContent = `Each value in the row for "${factor}" must be unique.`;
+                    }
                 });
 
-                questionnaire.appendChild(form);
-                scenarioContainer.appendChild(questionnaire);
-                currentQuestionnaireIndex++;
-            } else {
-                nextScenarioContainer.classList.remove('hidden');
-            }
-        }
+                if (valid) {
+                    const formData = new FormData(event.target);
+                    const rankings = {};
+                    formData.forEach((value, key) => {
+                    rankings[key] = value;
+                    });
 
-        //Function to store the data
+                    answers.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    scenarioResponses: { rankings }
+                    });
 
-        // Function to start the next scenario
-        function startNextScenario() {
-            scenarioContainer.innerHTML = '';
-            nextScenarioContainer.classList.add('hidden');
-            currentVideoIndex = 0;
-            currentQuestionnaireIndex = 0;
+                    scenarioData.push({
+                    participantID,
+                    scenario: scenarioOrder[currentScenarioIndex],
+                    responses: { rankings }
+                    });
 
-            currentScenarioIndex++;
+                    nextScenarioButton.style.display = "block";
+                }
+            });
 
-            //initial the order of the videos according to the scenario
+            nextScenarioButton.addEventListener("click", moveToNextScenario);
 
+            // Initialize the first video
+            updateVideo();
+            
 
-            if (currentScenarioIndex < scenarios.length) {
-                videos = scenarios[currentScenarioIndex].videos;
-                console.log("current scenario index 1 : ", currentScenarioIndex);
-                videoOrder = shuffleVideos(videos);
-                console.log("video order 1: ", videoOrder);
-                console.log("video lenght 1: ", videos.length);
-
-                console.log("current scenario index 2 : ", currentScenarioIndex);
-                showNextVideo();
-            } else {
-                completionMessage.classList.remove('hidden');
-            }
         }
 
         
-        function sendDataToServer() {
-            fetch("https://xp3.pythonanywhere.com/webhook/xp3", {
-                method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                body: JSON.stringify(participantData),
-            })
-            .then((response) => {
-                if (response.ok) {
-                    alert("Data successfully sent to the server!");
-                } else {
-                    alert("Failed to send data to the server.");
-                }
-            })
-            .catch((error) => {
-                console.error("Error sending data to server:", error);
-                alert("An error occurred while sending data to the server.");
-            });
-        }
+        // Event listener for the "Start" button
+        document.getElementById("start-button").addEventListener("click", () => {
+            //const participantIDInput = document.getElementById("participant-id-input").value;
+            
+            const url = window.location.href; // Get the current URL                  
+            const params = new URLSearchParams(window.location.search); // Create a URLSearchParams object to parse query parameters
 
-        // Event listeners
-        beginButton.addEventListener('click', () => {
-            beginButton.classList.add('hidden');
-            scenarioContainer.classList.remove('hidden');
-            showNextVideo();
+            const idURL = params.get('id'); // Retrieve the 'id' parameter
+            // Save it in a variable
+            if (idURL) {
+                console.log('Retrieved ID:', idURL);
+                // You can now use the ID as needed
+            } else {
+                console.log('ID parameter not found in the URL');
+            }
+
+            //const participantID = parseInt(participantIDInput, 10);
+            const participantID = parseInt(idURL, 10);
+            console.log("participant id 2nd :", participantID);
+
+            if (!participantID || participantID < 1) {
+                alert("Please enter a valid Participant ID.");
+                return;
+            }
+
+            startExperiment(participantID);
         });
 
-        // Function to send data to Firebase
-        function sendDataToFirebase() {
-            const ref = firebase.database().ref('Questionnaire');
-            ref.push(participantData)
-                .then(() => {
-                    alert("Data successfully sent to Firebase!");
-                })
-                .catch((error) => {
-                    console.error("Error sending data to Firebase:", error);
-                    alert("Failed to send data to Firebase.");
-                });
-        }
-
-        // Add a button in your HTML to trigger sending data to Firebase
-        // document.getElementById("send-to-firebase-button").addEventListener("click", sendDataToFirebase);
-
-        nextScenarioButton.addEventListener('click', startNextScenario);
-
         // send data to firebase for each scenario
-        nextScenarioButton.addEventListener("click", sendDataToFirebase);
+        //sendToFirebase.addEventListener("click", sendDataToFirebase);
+
+
     </script>
-
-
+    <script src="sendToFireBase.js"></script>
 </body>
 </html>
