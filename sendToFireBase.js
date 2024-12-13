@@ -18,7 +18,7 @@ function sendDataToFirebase() {
     const ref = firebase.database().ref('Questionnaire');
     ref.push(answers)
         .then(() => {
-            alert("Data successfully sent to Firebase!");
+            //alert("Data successfully sent to Firebase!");
         })
         .catch((error) => {
             console.error("Error sending data to Firebase:", error);
@@ -30,7 +30,7 @@ function sendDataScenarioToFirebase() {
     const ref = firebase.database().ref('Questionnaire');
     ref.push(scenarioData)
         .then(() => {
-            alert("Data successfully sent to Firebase!");
+            //alert("Data successfully sent to Firebase!");
         })
         .catch((error) => {
             console.error("Error sending data to Firebase:", error);
