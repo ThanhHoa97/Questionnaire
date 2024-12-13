@@ -167,7 +167,7 @@
             <!-- Question 3 -->
             <div class="question">
                 <label for="q3">3. How much is your attention divided in the situation? (are you concentrating on any aspect of the situation (High) (ex: dangerous element and environment around) or focused on only one (low))</label>
-                <p><i>Dans quelle mesure votre attention est-elle divisée dans la situation ? (vous concentrez-vous sur tous les aspects de la situation (haut) (ex : élément dangereux et environnement alentour) ou sur un seul (bas)</i></p>
+                <p><i>Dans quelle mesure votre attention est-elle divisée dans la situation ? (vous concentrez-vous sur tous les aspects de la situation (haut) (ex : élément dangereux et environnement alentour) ou sur un seul (bas))</i></p>
                 <div class="likert-scale">
                     <label><input type="radio" name="q3" value="1"> 1<br> Low</label>
                     <label><input type="radio" name="q3" value="2"> 2</label>
@@ -245,8 +245,8 @@
 
         <form id="scenario-questionnaire-container">
             <h3>Thanks for finish this scenario. </h3>
-            <p>Please provide your rankings for each visualization (1 (low) -6 (high)) across the factors below. Each value in a row must be unique.</p>
-            <p>Veuillez indiquer votre classement pour chaque visualisation (1 (faible) - 6 (fort)) en fonction des facteurs ci-dessous. Chaque valeur d'une ligne doit être unique.</p>
+            <p>Please provide your rankings for each visualization (1 (best) -6 (not good)) across the factors below. Each value in a row must be unique.</p>
+            <p>Veuillez indiquer votre classement pour chaque visualisation (1 (meilleur) - 6 (moins bon)) en fonction des facteurs ci-dessous. Chaque valeur d'une ligne doit être unique.</p>
             <table>
                 <thead>
                     <tr>
@@ -532,13 +532,15 @@
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
                     video: randomizedVideos[currentVideoIndex],
-                    responses: { q1, q2, q3, q4, q5}
+                    responses: { q1, q2, q3, q4, q5},
+                    submissionTime: new Date().toISOString(),
                 });
                 scenarioData.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
                     video: randomizedVideos[currentVideoIndex],
-                    responses: { q1, q2, q3, q4, q5}
+                    responses: { q1, q2, q3, q4, q5},
+                    submissionTime: new Date().toISOString(),
                 });
                 if (currentVideoIndex >= 5)
                 {
@@ -617,12 +619,14 @@
                     answers.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
+                    submissionTime: new Date().toISOString(),
                     scenarioResponses: { rankings }
                     });
 
                     scenarioData.push({
                     participantID,
                     scenario: scenarioOrder[currentScenarioIndex],
+                    submissionTime: new Date().toISOString(),
                     responses: { rankings }
                     });
 
